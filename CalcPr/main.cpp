@@ -6,18 +6,6 @@
 #include "Statistics.h"
 #include "Polinomials.h"
 
-using namespace std;
-typedef enum STATE {
-    MENU,
-    MATRIX,
-    FRACTIONS,
-    COMBINATORICS,
-    FUNCTIONS,
-    STATISTICS,
-    POLINOMIALS,
-    EXIT
-} STATE;
-
 void init();
 
 int main()

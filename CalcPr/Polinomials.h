@@ -9,7 +9,7 @@ typedef struct Polinomial {
 
 void polinomialCalc();
 void deletePolinomial(Polinomial& polinomial);
-Polinomial createPolinomial();
+Polinomial createPolinomial(long);
 Polinomial addPolinmials(Polinomial&, Polinomial&);
 Polinomial subPolinomials(Polinomial&, Polinomial&);
 Polinomial mulPolinomials(Polinomial&, Polinomial&);

@@ -8,7 +8,7 @@ void deletePolinomial(Polinomial& polinomial)
 {
 }
 
-Polinomial createPolinomial()
+Polinomial createPolinomial(long exp)
 {
 	return {0};
 }
