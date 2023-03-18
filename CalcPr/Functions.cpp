@@ -73,7 +73,7 @@ void functionsCalc()
 
 double calcIntegral(FUNC func, double* Ks, long size, double a, double b)
 {
-	return 0.0;
+	return 10;
 }
 
 double drawGraph(FUNC func, double* Ks, long size)
