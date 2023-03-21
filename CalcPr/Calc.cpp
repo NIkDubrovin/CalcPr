@@ -51,7 +51,7 @@ unsigned char isCorrectInput() {
     if (std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(1000, '\n');
-        std::cout << "\nERROR! Некорректный ввод.\n";
+        std::cout << "\nERROR! Некорректный ввод. \n";
         return 0;
     }
 
