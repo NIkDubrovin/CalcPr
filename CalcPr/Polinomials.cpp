@@ -1,16 +1,19 @@
 #include "Polinomials.h"
 
+using namespace std;
+
 void polinomialCalc()
 {
 }
 
 void deletePolinomial(Polinomial& polinomial)
 {
+	
 }
 
-Polinomial createPolinomial(long exp)
+Polinomial createPolinomial()
 {
-	return {0};
+	return { 0 };
 }
 
 Polinomial addPolinmials(Polinomial&, Polinomial&)

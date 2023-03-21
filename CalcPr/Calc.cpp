@@ -13,7 +13,7 @@ int main()
     int choose = 0;
 
     init();
-
+   
     while (State != EXIT) {
         cout << "Выберите тип :\n1: Матричный\n2: Дроби\n3: Комбинаторика\n4: Функции\n5: Статистика\n6: Многочлены\n7: Выход\n";
         cin >> choose;
@@ -51,7 +51,13 @@ unsigned char isCorrectInput() {
     if (std::cin.fail()) {
         std::cin.clear();
         std::cin.ignore(1000, '\n');
-        std::cout << "\nERROR! Некорректный ввод. \n";
+        std::cout << "\nERROR! Некорректный ввод.\n\n";
+        return 0;
+    }
+
+    std::cin.ignore(1000, '\n');
+    if (cin.gcount() > 1) {
+        std::cout << "\nERROR! Некорректный ввод.\n\n";
         return 0;
     }
 
