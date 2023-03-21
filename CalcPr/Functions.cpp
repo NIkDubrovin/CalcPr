@@ -1,6 +1,7 @@
 #include "Functions.h"
 #include "Polinomials.h"
-
+#include "Init.h"
+using namespace std;
 void functionsCalc()
 {
 	int type = 0, size = 0;
@@ -30,10 +31,10 @@ void functionsCalc()
 			}
 		}
 		break;
-		case POWER: 
+		case POWER:
 		{
 			size = 3;
-			koefs = (double*)malloc( size * sizeof(double));
+			koefs = (double*)malloc(size * sizeof(double));
 			cout << "a*x^b + c\n";
 			cout << "¬ведите a: ";
 			cin >> koefs[0];
@@ -53,6 +54,7 @@ void functionsCalc()
 			break;
 		default:
 			break;
+
 		}
 
 		cout << "¬ведите a: ";
@@ -67,8 +69,6 @@ void functionsCalc()
 		searchExtremum(func, koefs, size);
 
 	} while (1);
-
-	
 }
 
 double calcIntegral(FUNC func, double* Ks, long size, double a, double b)

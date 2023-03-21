@@ -36,11 +36,11 @@ Fraction createFraction()
 
 	do {
 		cout << "¬ведите числитель: "; cin >> drob1.numerator;
-	} while (isdigit(drob1.numerator));
+	} while (drob1.numerator==0);
 
 	do {
 		cout << "¬ведите знаменатель: "; cin >> drob1.denominator;
-	} while (isdigit(drob1.denominator));
+	} while (drob1.denominator==0);
 	return drob1;
 }
 
