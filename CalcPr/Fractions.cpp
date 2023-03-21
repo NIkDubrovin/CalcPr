@@ -4,15 +4,84 @@ void fractionsCalc()
 {
 	Fraction main1,main2,summa;
 	unsigned char test;
-	main1 = createFraction();
-	main2 = createFraction();
-	main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-	//summa = subFraction(main1, main2);
-	//cout <<summa.intPart<<endl<< summa.numerator;
-	//cout << endl << summa.denominator << endl;
-	test = compareFraction(main1, main2);
-
-	cout << test;
+	double vyv;
+	int choose = -2;
+	//main2 = createFraction();
+	//main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+	do{
+	cout << "enter 1 for choose amount\nenter 2 for choose subtraction\nenter 3 for choose multiplication\nenter 4 for choose div\nenter 5 for choose comparison\nenter 6 for choose reduction\nenter 7 for choose converting fractions to decimal\n";
+	cin >> choose;
+	} while ((choose > 8) || (choose < 1));
+	switch (choose)
+	{
+	case 1:
+	{
+		cout << "enter elements first fraction: " << endl;
+		main1 = createFraction();
+		cout << "enter elements second fraction: " << endl;
+		main2 = createFraction();
+		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+		summa = addFraction(main1, main2);
+		outputFraction(summa);
+	}break;
+	case 2:
+	{
+		cout << "enter elements first fraction: " << endl;
+		main1 = createFraction();
+		cout << "enter elements second fraction: " << endl;
+		main2 = createFraction();
+		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+		summa = subFraction(main1, main2);
+		outputFraction(summa);
+	}break;
+	case 3:
+	{
+		cout << "enter elements first fraction: " << endl;
+		main1 = createFraction();
+		cout << "enter elements second fraction: " << endl;
+		main2 = createFraction();
+		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+		summa = mulFraction(main1, main2);
+		outputFraction(summa);
+	}break;
+	case 4:
+	{
+		cout << "enter elements first fraction: " << endl;
+		main1 = createFraction();
+		cout << "enter elements second fraction: " << endl;
+		main2 = createFraction();
+		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+		summa = divFraction(main1, main2);
+		outputFraction(summa);
+	}break;
+	case 5:
+	{
+		cout << "enter elements first fraction: " << endl;
+		main1 = createFraction();
+		cout << "enter elements second fraction: " << endl;
+		main2 = createFraction();
+		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+		test = compareFraction(main1, main2);
+		cout << "1 fraction " << test << " 2 fraction"<<endl;
+		
+	}break;
+	case 6:
+	{
+		cout << "enter elements fraction: " << endl;
+		main1 = createFraction();
+		main1 = reductinFraction(main1);
+	
+		outputFraction(main1);
+	}break;
+	case 7:
+	{
+		cout << "enter elements fraction: " << endl;
+		main1 = createFraction();
+		main1 = reductinFraction(main1);
+		vyv = decimalFraction(main1);
+		cout << vyv << endl;
+	}break;
+	}
 }
 
 int isSimple(int num)
@@ -28,9 +97,10 @@ int isSimple(int num)
 
 void outputFraction(const Fraction& out)
 {
-	cout << out.intPart << " " << out.numerator << "\'" << out.denominator<<endl;
+	cout << "   " << out.numerator << endl;
+	cout << out.intPart << " --- " << endl;
+	cout << "   " << out.denominator<<endl;
 }
-
 Fraction createFraction()
 {
 	Fraction drob1;
