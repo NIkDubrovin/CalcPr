@@ -1,4 +1,4 @@
-#include "Init.h"
+#include "Calc.h"
 #include "Matrix.h"
 #include "Functions.h"
 #include "Combinatorics.h"
@@ -6,7 +6,6 @@
 #include "Statistics.h"
 #include "Polinomials.h"
 
-void init();
 
 int main()
 {
@@ -46,6 +45,17 @@ int main()
             break;
         }
     }
+}
+
+unsigned char isCorrectInput() {
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(1000, '\n');
+        std::cout << "\nERROR! Некорректный ввод.\n";
+        return 0;
+    }
+
+    return 1;
 }
 
 void init() {

@@ -130,7 +130,7 @@
     <ClCompile Include="Combinatorics.cpp" />
     <ClCompile Include="Fractions.cpp" />
     <ClCompile Include="Functions.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Calc.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Polinomials.cpp" />
     <ClCompile Include="Statistics.cpp" />
@@ -139,7 +139,7 @@
     <ClInclude Include="Combinatorics.h" />
     <ClInclude Include="Fractions.h" />
     <ClInclude Include="Functions.h" />
-    <ClInclude Include="Init.h" />
+    <ClInclude Include="Calc.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Polinomials.h" />
     <ClInclude Include="Statistics.h" />

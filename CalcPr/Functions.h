@@ -1,5 +1,5 @@
 #pragma once
-#include "Init.h"
+#include "Calc.h"
 // Дубровин
 
 typedef enum FUNC {

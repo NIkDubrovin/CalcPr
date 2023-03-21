@@ -1,8 +1,10 @@
 #pragma once
-
 #include <iostream>
 #include <math.h>
-typedef enum STATE {
+
+using namespace std;
+
+typedef enum STATE{
     MENU,
     MATRIX,
     FRACTIONS,
@@ -13,4 +15,6 @@ typedef enum STATE {
     EXIT
 } STATE;
 
-using namespace std;
+
+void init();
+unsigned char isCorrectInput();

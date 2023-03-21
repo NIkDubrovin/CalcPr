@@ -1,5 +1,5 @@
-#pragma 
-#include "Init.h"
+#pragma once
+#include "Calc.h"
 // Стафеев
 
 void combinatoricsCalc();

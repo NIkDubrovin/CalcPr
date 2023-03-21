@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Calc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
@@ -56,7 +56,7 @@
     <ClInclude Include="Statistics.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Init.h">
+    <ClInclude Include="Calc.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
