@@ -15,7 +15,7 @@ Fraction addFraction(const Fraction&, const Fraction&);
 Fraction subFraction(const Fraction&, const Fraction&);
 Fraction mulFraction(const Fraction&, const Fraction&);
 Fraction divFraction(const Fraction&, const Fraction&);
-unsigned char compareFraction(const Fraction&, const Fraction&);
+unsigned char compareFraction(Fraction&, Fraction&);
 Fraction reductinFraction(Fraction);
 double decimalFraction(const Fraction&);
 

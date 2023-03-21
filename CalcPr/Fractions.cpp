@@ -3,13 +3,16 @@ using namespace std;
 void fractionsCalc()
 {
 	Fraction main1,main2,summa;
+	unsigned char test;
 	main1 = createFraction();
 	main2 = createFraction();
 	main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-	summa = addFraction(main1, main2);
-	cout <<summa.intPart<<endl<< summa.numerator;
-	cout << endl << summa.denominator << endl;
+	//summa = subFraction(main1, main2);
+	//cout <<summa.intPart<<endl<< summa.numerator;
+	//cout << endl << summa.denominator << endl;
+	test = compareFraction(main1, main2);
 
+	cout << test;
 }
 
 int isSimple(int num)
@@ -23,8 +26,9 @@ int isSimple(int num)
 	return 1;
 }
 
-void outputFraction(const Fraction&)
+void outputFraction(const Fraction& out)
 {
+	cout << out.intPart << " " << out.numerator << "\'" << out.denominator<<endl;
 }
 
 Fraction createFraction()
@@ -66,24 +70,66 @@ Fraction addFraction(const Fraction& main1,const Fraction& main2)
 	
 }
 
-Fraction subFraction(const Fraction&, const Fraction&)
+Fraction subFraction(const Fraction& main1, const Fraction& main2)
 {
-	return { 0 };
+	Fraction Sub;
+
+	Sub.intPart = main1.intPart + main2.intPart;
+	if (main1.denominator == main2.denominator)
+	{
+		Sub.denominator = main1.denominator;
+		Sub.numerator = main1.numerator - main2.numerator;
+		reductinFraction(Sub);
+		return Sub;
+	}
+	else
+	{
+		Sub.denominator = main1.denominator * main2.denominator;
+		Sub.numerator = (main1.numerator * main2.denominator) - (main2.numerator * main1.denominator);
+		reductinFraction(Sub);
+		return Sub;
+	}
 }
 
-Fraction mulFraction(const Fraction&, const Fraction&)
+Fraction mulFraction(const Fraction& main1, const Fraction& main2)
 {
-	return { 0 };
+	Fraction mul;
+	mul.intPart = 0;
+	mul.numerator = main1.numerator * main2.numerator;
+	mul.denominator = main1.denominator * main2.denominator;
+	mul = reductinFraction(mul);
+	return mul;
+
+}
+Fraction divFraction(const Fraction& main1, const Fraction& main2)
+{
+	Fraction div;
+	div.intPart = 0;
+	div.numerator = main1.numerator * main2.denominator;
+	div.denominator = main1.denominator * main2.numerator;
+	div = reductinFraction(div);
+	return div;
 }
 
-Fraction divFraction(const Fraction&, const Fraction&)
+unsigned char compareFraction(Fraction& main1, Fraction& main2)
 {
-	return { 0 };
-}
-
-unsigned char compareFraction(const Fraction&, const Fraction&)
-{
-	return 0;
+	if (main1.denominator == main2.denominator)
+	{
+		if (main1.numerator > main2.numerator) return '>';
+		if (main1.numerator == main2.numerator) return'=';
+		if (main1.numerator < main2.numerator) return'<';
+	}
+	else
+	{
+		main1.numerator *= main2.denominator;
+		main2.numerator *= main1.denominator;
+		int temp = main1.denominator;
+		main1.denominator *= main2.denominator;
+		main2.denominator *= temp;
+		if (main1.numerator > main2.numerator) return '>';
+		if (main1.numerator == main2.numerator) return'=';
+		if (main1.numerator < main2.numerator) return'<';
+	}
 }
 
 Fraction reductinFraction(Fraction main)
@@ -110,7 +156,7 @@ Fraction reductinFraction(Fraction main)
 	return main;
 }
 
-double decimalFraction(const Fraction&)
+double decimalFraction(const Fraction& test)
 {
-	return 0.0;
+	return (double(test.numerator )/ double(test.denominator));
 }
