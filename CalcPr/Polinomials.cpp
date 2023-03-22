@@ -1,6 +1,6 @@
 #include "Polinomials.h"
 
-void polynomialCalc()
+void polinomialCalc()
 {
     setlocale(LC_ALL, "Russian");
     while (true)
@@ -179,9 +179,6 @@ void printPolynomial(Polinomial& p)
 }
 void deletePolynomial(Polinomial& p)
 {
-    delete[] p.koefs;
-    p.n = 0;
-    p.koefs = nullptr;
 }
 
 Polinomial createPolynomial(long degree)
@@ -195,6 +192,7 @@ Polinomial createPolynomial(long degree)
     }
     return p;
 }
+
 
 Polinomial addPolynomials(Polinomial& p1, Polinomial& p2)
 {
