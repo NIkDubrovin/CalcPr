@@ -1,5 +1,7 @@
 #pragma once
-
+#include<iostream>
+#include <cmath>
+using namespace std;
 // Солдатенко
 
 typedef struct Polinomial {
@@ -9,6 +11,7 @@ typedef struct Polinomial {
 
 void polinomialCalc();
 void deletePolinomial(Polinomial& polinomial);
+void printPolynomial(Polinomial&);
 Polinomial createPolinomial(long);
 Polinomial addPolinmials(Polinomial&, Polinomial&);
 Polinomial subPolinomials(Polinomial&, Polinomial&);
