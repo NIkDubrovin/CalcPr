@@ -86,11 +86,15 @@ func_t* createFunc(const Type& type) {
 		{
 			cout << "Введите a: ";
 			cin >> func->koefs[0];
-			cout << "\nВведите b: ";
+			cout << "Введите b: ";
 			cin >> func->koefs[1];
-			cout << "\nВведите c: ";
+			cout << "Введите c: ";
 			cin >> func->koefs[2];
-		} while (!isCorrectInput());
+
+			if (func->koefs[1] == 0.0 && type == LOG) {
+				cout << "Error! При b = 0 функция не определена;\n";
+			}
+		} while (!isCorrectInput() || (func->koefs[1] == 0.0 && type == LOG));
 	}
 	else if(type == SIN || type == COS || type == EXPONENTIAL){
 		func->n = 4;
@@ -102,13 +106,18 @@ func_t* createFunc(const Type& type) {
 		{
 			cout << "Введите a: ";
 			cin >> func->koefs[0];
-			cout << "\nВведите b: ";
+			cout << "Введите b: ";
 			cin >> func->koefs[1];
-			cout << "\nВведите c: ";
+			cout << "Введите c: ";
 			cin >> func->koefs[2];
-			cout << "\nВведите d: ";
+			cout << "Введите d: ";
 			cin >> func->koefs[3];
-		} while (!isCorrectInput());
+
+			if (func->koefs[1] == 0.0 && type == EXPONENTIAL) {
+				cout << "Error! При b = 0 функция не определена;\n";
+			}
+
+		} while (!isCorrectInput() || (func->koefs[1] == 0.0 && type == EXPONENTIAL));
 	}
 	else
 		return nullptr;
@@ -141,45 +150,120 @@ int calcIntegral(const func_t * func)
 		cin >> a;
 		cout << "Введите b: ";
 		cin >> b;
+
+		if (func->type == POLYNOMIAL || func->type == POWER || func->type == LOG) {
+			if (a == 0.0)
+				if (b < a)
+					a -= minExp;
+				else if (b > a)
+					a += minExp;
+
+			if(b == 0.0)
+				if (b < a)
+					b += minExp;
+				else if (b > a)
+					a -= minExp;
+
+			if (b == 0.0 && a == 0.0)
+				cout << "Error! Функция неопределена на данном значении!\n";
+
+		}
+			
 	} while (!isCorrectInput());
 	
+	cout << "Integral: " << a << " | " << b << " (";
+
 	switch (func->type)
 	{
 	case POLYNOMIAL: 
 	{
-		cout << "Integral: " << a << " | " << b << " (";
 		for (long i = 0; i < (func->n + 1); i++)
 		{
 			if (i != 0)
 				cout << " + ";
 
-			cout << func->koefs[i] << "*x^" << i;;
+			cout << func->koefs[i] << "*x^" << i;
 			integralA += func->koefs[i] * pow(a, double(i + 1)) / (double)(i + 1);
 			integralB += func->koefs[i] * pow(b, double(i + 1)) / (double)(i + 1);
 		}
-
-		cout << ") = " << integralA - integralB << endl << "\n";
 	}
 	break;
 	case POWER:
 	{
+		cout << func->koefs[0] << "*x^" << func->koefs[1] << "+" << func->koefs[2];
 
+		if (func->koefs[1] != -1.0) {
+			integralA = func->koefs[0] * pow(a, func->koefs[1] + 1.0) / (func->koefs[1] + 1.0) + func->koefs[2] * a;
+			integralB = func->koefs[0] * pow(b, func->koefs[1] + 1.0) / (func->koefs[1] + 1.0) + func->koefs[2] * b;
+		}
+		else {
+			integralA = func->koefs[0] * log(abs(a)) + func->koefs[2] * a;
+			integralB = func->koefs[0] * log(abs(b)) + func->koefs[2] * b;
+		}
 	}
 	break;
-	case EXPONENTIAL:
-		break;
+	case EXPONENTIAL: 
+	{
+		cout << func->koefs[0] << "*" << func->koefs[1] << "^(" << func->koefs[2] << "*x) + " << func->koefs[3];
+
+		if (func->koefs[1] == 0.0) { // b = 0
+			return 0;
+		}
+		if (func->koefs[2] == 0.0) { // c = 0;
+			integralA = func->koefs[0] * a + func->koefs[3] * a;
+			integralA = func->koefs[0] * b + func->koefs[3] * b;
+		}
+		integralA = func->koefs[0] / func->koefs[2] * pow(func->koefs[1], func->koefs[2] * a) / log(func->koefs[1]) + func->koefs[3] * a;
+		integralB = func->koefs[0] / func->koefs[2] * pow(func->koefs[1], func->koefs[2] * b) / log(func->koefs[1]) + func->koefs[3] * b;
+	}
+	break;
 	case LOG:
-		break;
-	case SIN:
-		break;
-	case COS:
-		break;
-	default:
-		break;
+	{
+		cout << func->koefs[0] << "* ln(" << func->koefs[1] << "*x) + " << func->koefs[2];
+
+		integralA = func->koefs[0] * log(func->koefs[1] * a) * a - func->koefs[0] * a + func->koefs[2] * a;
+		integralB = func->koefs[0] * log(func->koefs[1] * b) * b - func->koefs[0] * b + func->koefs[2] * b;
+	}
+	break;
+	case SIN: 
+	{
+		cout << func->koefs[0] << "* sin(" << func->koefs[1] << "*x + " << func->koefs[2] << ") + " << func->koefs[3];
+
+		if (func->koefs[1] == 0) {
+			integralA = func->koefs[0] * sin(func->koefs[2]) * a + func->koefs[3] * a;
+			integralB = func->koefs[0] * sin(func->koefs[2]) * b + func->koefs[3] * b;
+		}
+		else {
+			integralA = -func->koefs[0] / func->koefs[1] * cos(func->koefs[1] * a + func->koefs[2]) + func->koefs[3] * a;
+			integralB = -func->koefs[0] / func->koefs[1] * cos(func->koefs[1] * b + func->koefs[2]) + func->koefs[3] * b;
+		}
+	}
+	break;
+	case COS: 
+	{
+		cout << func->koefs[0] << "* cos(" << func->koefs[1] << "*x) + " << func->koefs[2];
+
+		if (func->koefs[1] == 0) {
+			integralA = func->koefs[0] * cos(func->koefs[2]) * a + func->koefs[3] * a;
+			integralB = func->koefs[0] * cos(func->koefs[2]) * b + func->koefs[3] * b;
+		}
+		else
+		{
+			integralA = func->koefs[0] / func->koefs[1] * sin(func->koefs[1] * a + func->koefs[2]) + func->koefs[3] * a;
+			integralB = func->koefs[0] / func->koefs[1] * sin(func->koefs[1] * b + func->koefs[2]) + func->koefs[3] * b;
+		}
+	}
+	break;
+	default: 
+	{
+		cout << ") = " << "Error! Неправильный тип функции.\n" << endl;
+		return 0;
+	}
 	}
 
+	cout << ") = " << integralA - integralB << " + C;" << endl << "\n";
 
-	return 10;
+	return 1;
 }
 
 int drawGraph(const func_t * func)
@@ -189,6 +273,97 @@ int drawGraph(const func_t * func)
 
 int searchRoots(const func_t* func)
 {
+	double a = 0, b = 0;
+	cout << "Корни уравнения: ";
+	do {
+		cout << "Введите a: ";
+		cin >> a;
+		cout << "Введите b: ";
+		cin >> b;
+	} while (!isCorrectInput());
+
+	switch (func->type)
+	{
+	case POLYNOMIAL:
+	{
+		for (long i = 0; i < (func->n + 1); i++)
+		{
+			if (i != 0)
+				cout << " + ";
+
+			cout << func->koefs[i] << "*x^" << i;
+		}
+		cout << " = 0\nКорни: ";
+		
+		double res = 0;
+
+		if(a <= b)
+			for (double i = a; i <= b; i += minExp)
+			{
+				for (long i = 1; i < (func->n + 1); i++)
+				{
+					res += func->koefs[i] * pow(a, i);
+				}
+
+				if (abs(res - func->koefs[0]) < minExp)
+					cout << a << "; ";
+			}
+		else
+			for (double i = a; i > b; i -= minExp)
+			{
+				for (long i = 1; i < (func->n + 1); i++)
+				{
+					res += func->koefs[i] * pow(a, i);
+				}
+
+				if (abs(res - func->koefs[0]) < minExp)
+					cout << a << "; ";
+			}
+	}
+	break;
+	case POWER:
+	{
+		cout << func->koefs[0] << "*x^" << func->koefs[1] << "+" << func->koefs[2];
+		cout << " = 0\n";
+		
+	}
+	break;
+	case EXPONENTIAL:
+	{
+		cout << func->koefs[0] << "*" << func->koefs[1] << "^(" << func->koefs[2] << "*x) + " << func->koefs[3];
+
+
+		
+	}
+	break;
+	case LOG:
+	{
+		cout << func->koefs[0] << "* ln(" << func->koefs[1] << "*x) + " << func->koefs[2];
+
+		
+	}
+	break;
+	case SIN:
+	{
+		cout << func->koefs[0] << "* sin(" << func->koefs[1] << "*x + " << func->koefs[2] << ") + " << func->koefs[3];
+
+		
+	}
+	break;
+	case COS:
+	{
+		cout << func->koefs[0] << "* cos(" << func->koefs[1] << "*x) + " << func->koefs[2];
+
+		
+	}
+	break;
+	default:
+	{
+		cout << ") = " << "Error! Неправильный тип функции.\n" << endl;
+		return 0;
+	}
+	}
+
 	return 0;
 }
 

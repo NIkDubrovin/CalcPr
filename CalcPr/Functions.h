@@ -17,6 +17,8 @@ typedef struct FUNC {
 	Type type;
 } func_t;
 
+static double minExp = 0.000001;
+
 func_t* createFunc(const Type&);
 void deleteFunc(func_t *);
 int functionsCalc();

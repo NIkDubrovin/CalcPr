@@ -15,6 +15,5 @@ typedef enum STATE{
     EXIT
 } STATE;
 
-
 void init();
 unsigned char isCorrectInput();

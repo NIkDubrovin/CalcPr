@@ -30,7 +30,9 @@ int main()
             combinatoricsCalc();
             break;
         case FUNCTIONS:
+            cout.setf(ios_base::fixed);
             functionsCalc();
+            cout.unsetf(ios_base::fixed);
             break;
         case STATISTICS:
             statisticCalc();
