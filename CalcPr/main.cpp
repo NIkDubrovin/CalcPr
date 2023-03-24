@@ -6,13 +6,14 @@
 #include "Statistics.h"
 #include "Polinomials.h"
 
+
 int main()
 {
     STATE State = MENU;
     int choose = 0;
 
     init();
-   
+
     while (State != EXIT) {
         cout << "Выберите тип :\n1: Матричный\n2: Дроби\n3: Комбинаторика\n4: Функции\n5: Статистика\n6: Многочлены\n7: Выход\n";
         cin >> choose;

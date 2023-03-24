@@ -1,8 +1,7 @@
 #include "Functions.h"
 #include "Polinomials.h"
-#include "Calc.h"
 
-int functionsCalc()
+void functionsCalc()
 {
 	int type = -1;
 	func_t* func = nullptr;

@@ -1,6 +1,6 @@
 #pragma once
 // “юрин
-#include "Calc.h"
+#include "Init.h"
 
 typedef struct Matrix {
 	const long rows, cols;
