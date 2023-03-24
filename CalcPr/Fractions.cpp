@@ -211,9 +211,13 @@ Fraction reductinFraction(Fraction main)
 		main.numerator = main.denominator * main.intPart + main.numerator;
 		main.intPart = 0;
 	}
-	if (main.denominator > main.numerator) i = main.numerator;
-	else i = main.denominator;
-	while((!isSimple(main.denominator)) && (!isSimple(main.numerator)))
+
+	if (main.denominator > main.numerator) 
+		i = main.numerator;
+	else 
+		i = main.denominator;
+
+	while((!isSimple(main.denominator)) || (!isSimple(main.numerator)))
 	{
 		
 		if ((main.denominator % i == 0) && (main.numerator % i == 0))

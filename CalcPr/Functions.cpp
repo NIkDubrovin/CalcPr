@@ -37,7 +37,7 @@ int functionsCalc()
 		if ((func = createFunc((Type)type)) == nullptr)
 			return 0;
 
-		//calcIntegral(func);
+		calcIntegral(func);
 		drawGraph(func);
 		searchRoots(func);
 		searchExtremum(func);
@@ -523,7 +523,7 @@ int searchExtremum(const func_t* func)
 			func->koefs[i - 1] = func->koefs[i] * i;
 		}
 
-		func->n = func->n - 1;
+		//func->n = func->n - 1;
 
 		res = funcRoots(func, roots, rootsCount);
 

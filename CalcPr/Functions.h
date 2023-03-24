@@ -20,7 +20,6 @@ typedef struct FUNC {
 
 static double minExp = 1e-5;
 
-
 func_t* createFunc(const Type&);
 void deleteFunc(func_t *);
 int functionsCalc();

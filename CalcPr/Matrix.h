@@ -1,24 +1,28 @@
 #pragma once
-// Òþðèí
-#include "Calc.h"
+// tyurin
+#include <iostream>
+#include <math.h>
+#include <stdio.h>
+#include <locale.h>
+using namespace std;
 
-typedef struct Matrix {
-	const long rows, cols;
-	double** arr;
-	double det;
-} Matrix;
+struct matrix {
+    double** data;
+    int rows, cols;
+};
 
 void matrixCalc();
-void outputMatrix(const Matrix&);
-Matrix createMatrix(const long, const long);
-void deleteMatrix(const long);
-Matrix addMatrix(const Matrix&, const Matrix&);
-Matrix subMatrix(const Matrix&, const Matrix&);
-Matrix mulMatrix(const Matrix&, const Matrix&);
-Matrix mulScalarMatrix(const Matrix&, double);
-Matrix addScalarMatrix(const Matrix&, double);
-Matrix subScalarMatrix(const Matrix&, double);
-Matrix traspontMatrix(const Matrix&);
-Matrix inverseMatrix(const Matrix&);
-double detMatrix(const Matrix&);
-
+void outputMatrix(const matrix&);
+matrix createMatrix(int rows, int cols);
+matrix deleteMatrix(matrix& m);
+void inputMatrix(matrix& m);
+void outputMatrix(matrix& m);
+matrix addMatrix(matrix& m1, matrix& m2);
+matrix subMatrix(matrix& m1, matrix& m2);
+matrix multMatrix(matrix& m1, matrix& m2);
+matrix mult_ScalarToMatrix(matrix& m, double scalar);
+matrix add_ScalarToMatrix(matrix& m1, int f);
+matrix sub_ScalarToMatrix(matrix& m1, int f);
+matrix traspontMatrix(matrix& m);
+matrix inverseMatrix(matrix& m);
+double detMatrix(matrix& m);
