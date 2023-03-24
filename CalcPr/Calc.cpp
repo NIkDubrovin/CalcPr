@@ -6,7 +6,6 @@
 #include "Statistics.h"
 #include "Polinomials.h"
 
-
 int main()
 {
     STATE State = MENU;
@@ -37,7 +36,7 @@ int main()
         case STATISTICS:
             statisticCalc();
             break;
-        case POLINOMIALS:
+        case POLYNOMIALS:
             polinomialCalc();
             break;
         case EXIT:

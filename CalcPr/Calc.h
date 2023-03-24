@@ -11,7 +11,7 @@ typedef enum STATE{
     COMBINATORICS,
     FUNCTIONS,
     STATISTICS,
-    POLINOMIALS,
+    POLYNOMIALS,
     EXIT
 } STATE;
 

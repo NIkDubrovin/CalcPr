@@ -36,6 +36,9 @@
     <ClCompile Include="Statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="polynomRealRootscpp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix.h">
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="Calc.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="polynomRealRoots.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
