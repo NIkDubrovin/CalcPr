@@ -37,7 +37,7 @@ int main()
         case STATISTICS:
             statisticCalc();
             break;
-        case POLINOMIALS:
+        case POLYNOMIALS:
             polinomialCalc();
             break;
         case EXIT:
