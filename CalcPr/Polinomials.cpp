@@ -5,9 +5,10 @@ void polinomialCalc()
     setlocale(LC_ALL, "Russian");
     while (true)
     {
-        cout << "Введите номер операции \n(1 - сложение, 2 - вычитание , 3 - умножение , 4 - умножение на число, 5- деление , 6 - производная ,7-выход): ";
+        cout << "1 - сложение \n2 - вычитание  \n3 - умножение \n4 - умножение на число \n5 - деление \n6 - производная \n7 - выход \nВведите номер операции: ";
         int operation;
         cin >> operation;
+        system("cls");
         if (operation == 7)
         {
             break;
@@ -43,9 +44,7 @@ void polinomialCalc()
             result = addPolynomials(p1, p2);
             cout << "Результат: ";
             printPolynomial(result);
-            deletePolynomial(p1);
-            deletePolynomial(p2);
-            deletePolynomial(result);
+
             break;
         case 2:
             cout << "Введите первую степень многочлена: ";
@@ -70,9 +69,6 @@ void polinomialCalc()
             result = subPolynomials(p1, p2);
             cout << "Результат: ";
             printPolynomial(result);
-            deletePolynomial(p1);
-            deletePolynomial(p2);
-            deletePolynomial(result);
             break;
         case 3:
             cout << "Введите степень первого многочлена: ";
@@ -96,9 +92,7 @@ void polinomialCalc()
             result = mulPolynomials(p1, p2);
             cout << "Результат: ";
             printPolynomial(result);
-            deletePolynomial(p1);
-            deletePolynomial(p2);
-            deletePolynomial(result);
+
             break;
         case 4:
             cout << "Введите степень многочлена: ";
@@ -116,8 +110,7 @@ void polinomialCalc()
             result = mulScalarPolynomial(p1, scalar);
             cout << "Результат: ";
             printPolynomial(result);
-            deletePolynomial(p1);
-            deletePolynomial(result);
+
             break;
         case 5:
             cout << "Введите первую степень многочлена: ";
@@ -139,11 +132,6 @@ void polinomialCalc()
             }
             cout << "Второй многочлен: "; printPolynomial(p2);
             result = divPolynomials(p1, p2);
-            cout << "Результат: ";
-            printPolynomial(result);
-            deletePolynomial(p1);
-            deletePolynomial(p2);
-            deletePolynomial(result);
             break;
         case 6:
             cout << "Введите степень многочлена: ";
@@ -158,13 +146,12 @@ void polinomialCalc()
             result = derivativePolynomial(p1);
             cout << "Результат: ";
             printPolynomial(result);
-            deletePolynomial(p1);
-            deletePolynomial(result);
             break;
         default:
             cout << "Invalid operation" << endl;
             break;
         }
+
     }
 }
 void printPolynomial(Polinomial& p)
@@ -176,9 +163,6 @@ void printPolynomial(Polinomial& p)
         cout << p.koefs[i] << "x^" << i << " ";
     }
     cout << endl;
-}
-void deletePolynomial(Polinomial& p)
-{
 }
 
 Polinomial createPolynomial(long degree)
@@ -266,24 +250,41 @@ Polinomial divPolynomials(Polinomial& p1, Polinomial& p2)
 {
     if (p2.n == 0 && p2.koefs[0] == 0)
     {
-        cout << "Error: Division by zero" << endl;
-        return createPolynomial(0);
+        cout << "Ошибка: Деление на 0 " << endl;
     }
-    if (p1.n < p2.n) {
-        return createPolynomial(0);
-    }
-    Polinomial result = createPolynomial(p1.n - p2.n);
-    Polinomial remainder = p1;
-    for (int i = result.n; i >= 0; i--)
+    if (p1.n < p2.n)
     {
-        double quotient = remainder.koefs[p2.n + i] / p2.koefs[p2.n];
-        result.koefs[i] = quotient;
-        for (int j = p2.n + i; j >= i; j--)
-        {
-            remainder.koefs[j] -= quotient * p2.koefs[j - i];
-        }
+        cout << "Степени многочленов различны, деление невозможно! " << endl;
     }
-    return result;
+    else
+    {
+        Polinomial result = createPolynomial(p1.n - p2.n);
+        Polinomial remainder = p1;
+        for (int i = result.n; i >= 0; i--)
+        {
+            double quotient = remainder.koefs[p2.n + i] / p2.koefs[p2.n];
+            result.koefs[i] = quotient;
+            for (int j = p2.n + i; j >= i; j--)
+            {
+                remainder.koefs[j] -= quotient * p2.koefs[j - i];
+            }
+        }
+        cout << "Результат: " << endl;
+        cout << "\t";
+        printPolynomial(result);
+        cout << "\t+" << endl;
+        cout << "\t";
+        printPolynomial(remainder);
+        cout << "\t-----------------------";
+        if (p2.n <= remainder.n)
+        {
+            cout << endl;
+            cout << "\t";
+            printPolynomial(p2);
+        }
+        cout << endl;
+        return result;
+    }
 }
 
 Polinomial derivativePolynomial(Polinomial& p)

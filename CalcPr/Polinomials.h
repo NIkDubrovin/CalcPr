@@ -14,7 +14,6 @@ typedef struct Polinomial {
 
 void printPolynomial(Polinomial&);
 void polinomialCalc();
-void deletePolynomial(Polinomial& polinomial);
 Polinomial createPolynomial(long);
 Polinomial addPolynomials(Polinomial&, Polinomial&);
 Polinomial subPolynomials(Polinomial&, Polinomial&);
