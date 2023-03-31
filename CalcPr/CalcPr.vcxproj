@@ -71,7 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\NikDr\Desktop\WorkDirectory\Projects\CalcPr\sdl\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\NikDr\Desktop\WorkDirectory\Projects\CalcPr\sdl\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -65,7 +65,40 @@ unsigned char isCorrectInput() {
     return 1;
 }
 
-void init() {
+void clearScreen()
+{
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    HWND hWnd = GetConsoleWindow();
+    RECT rect;
+    PCONSOLE_FONT_INFO pFont = nullptr;
+    int width = 0, heigth = 0;
+    COORD coord;
+
+    if (GetWindowRect(hWnd, &rect) != 0)
+    {
+        GetCurrentConsoleFont(consoleHandle, FALSE, pFont);
+
+        if (pFont != nullptr)
+        {
+            width = pFont->dwFontSize.X;
+            heigth = pFont->dwFontSize.Y;
+        }
+
+        for (int i = 0; i < rect.bottom; i += heigth)
+        {
+            coord.Y = i;
+            for (int j = 0; j < rect.right; j += width)
+            {
+                coord.X = j;
+                SetConsoleCursorPosition(consoleHandle, coord);
+            }
+        }
+       
+    }
+}
+
+void init() 
+{
     setlocale(LC_ALL, "Russian");
     system("chcp 1251");
     srand(time(nullptr));
