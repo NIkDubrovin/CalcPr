@@ -12,4 +12,5 @@ typedef struct Odd {
 void statisticCalc();
 double findProbability(long n, long m);
 void findDispersion();
-double findM(Odd* odds, long size);
+void findM();
+void findMCalc(long& cn, double& M, double* values, double* probabilities);  
