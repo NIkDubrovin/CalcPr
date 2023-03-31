@@ -5,7 +5,7 @@
 #include "Fractions.h"
 #include "Statistics.h"
 #include "Polinomials.h"
-#include "sdl/include/SDL.h"
+//#include "sdl/include/SDL.h"
 
 int main()
 {
@@ -66,37 +66,37 @@ unsigned char isCorrectInput() {
     return 1;
 }
 
-void clearScreen()
-{
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    HWND hWnd = GetConsoleWindow();
-    RECT rect;
-    PCONSOLE_FONT_INFO pFont = 0;
-    int width = 0, heigth = 0;
-    COORD coord;
-
-    GetCurrentConsoleFont(consoleHandle, FALSE, pFont);
-
-    if (GetWindowRect(hWnd, &rect) != 0 && pFont != nullptr)
-    {
-        if (pFont != nullptr)
-        {
-            width = pFont->dwFontSize.X;
-            heigth = pFont->dwFontSize.Y;
-        }
-
-        for (int i = 0; i < rect.bottom; i += heigth)
-        {
-            coord.Y = i;
-            for (int j = 0; j < rect.right; j += width)
-            {
-                coord.X = j;
-                SetConsoleCursorPosition(consoleHandle, coord);
-            }
-        }
-       
-    }
-}
+//void clearScreen()
+//{
+//    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+//    HWND hWnd = GetConsoleWindow();
+//    RECT rect;
+//    PCONSOLE_FONT_INFO pFont = 0;
+//    int width = 0, heigth = 0;
+//    COORD coord;
+//
+//    GetCurrentConsoleFont(consoleHandle, FALSE, pFont);
+//
+//    if (GetWindowRect(hWnd, &rect) != 0 && pFont != nullptr)
+//    {
+//        if (pFont != nullptr)
+//        {
+//            width = pFont->dwFontSize.X;
+//            heigth = pFont->dwFontSize.Y;
+//        }
+//
+//        for (int i = 0; i < rect.bottom; i += heigth)
+//        {
+//            coord.Y = i;
+//            for (int j = 0; j < rect.right; j += width)
+//            {
+//                coord.X = j;
+//                SetConsoleCursorPosition(consoleHandle, coord);
+//            }
+//        }
+//       
+//    }
+//}
 
 void init() 
 {

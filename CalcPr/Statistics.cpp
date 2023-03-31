@@ -88,15 +88,23 @@ void findM()
 	long cn;
 	double M = 0;
 	cout << "Введите количество значений: "; cin >> cn;
-	while (cn < 0)
+	while (!isCorrectInput() || cn <= 0)
 	{
-		cout << "Количество значений не может быть равно нулю или быть отрицательным. Введите количество значений: "; cin >> cn;
+		cout << "Введите количество значений: "; cin >> cn;
 	}
 	double* values = (double*)malloc(sizeof(double) * cn);
 	double* probabilities = (double*)malloc(sizeof(double) * cn);
 	for (int i = 0; i < cn; i++)
 	{
-		cout << "Введите значение и вероятность для " << i + 1 << " элемента: "; cin >> values[i] >> probabilities[i];
+		cout << "Введите значение и вероятность (от 0 до 1) для " << i + 1 << " элемента: "; cin >> values[i] >> probabilities[i];
+		while (!isCorrectInput())
+		{
+			cout << "Введите значение и вероятность (от 0 до 1) для " << i + 1 << " элемента: "; cin >> values[i] >> probabilities[i];
+		}
+		while ((probabilities[i] > 1 && probabilities[i] < 0) || !isCorrectInput())
+		{
+			cout << "Вероятность введена неверно. Введите вероятность от 0 до 1: "; cin >> probabilities[i];
+		}
 	}
 	findMCalc(cn, M, values, probabilities);
 	cout << "Математическое ожидание: " << M << endl;
