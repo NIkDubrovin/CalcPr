@@ -27,7 +27,7 @@ void polinomialCalc()
                 cin >> p1.koefs[i];
             }
             cout << "Первый многочлен: "; printPolynomial(p1);
-
+            cout << "\n";
             cout << "Введите степень второго многочлена: ";
             long degree2;
             cin >> degree2;
@@ -40,10 +40,11 @@ void polinomialCalc()
 
             cout << "Второй многочлен: ";
             printPolynomial(p2);
-
+            cout << "\n";
             result = addPolynomials(p1, p2);
             cout << "Результат: ";
             printPolynomial(result);
+            cout << endl;
 
             break;
         case 2:
@@ -56,6 +57,7 @@ void polinomialCalc()
                 cin >> p1.koefs[i];
             }
             cout << "Первый многочлен: "; printPolynomial(p1);
+            cout << "\n";
             cout << "Введите степень второго многочлена: ";
             cin >> degree2;
             p2 = createPolynomial(degree2);
@@ -66,9 +68,11 @@ void polinomialCalc()
             }
             cout << "Второй многочлен: ";
             printPolynomial(p2);
+            cout << "\n";
             result = subPolynomials(p1, p2);
             cout << "Результат: ";
             printPolynomial(result);
+            cout << endl;
             break;
         case 3:
             cout << "Введите степень первого многочлена: ";
@@ -80,6 +84,7 @@ void polinomialCalc()
                 cin >> p1.koefs[i];
             }
             cout << "Первый многочлен: "; printPolynomial(p1);
+            cout << "\n";
             cout << "Введите первую степень многочлена: ";
             cin >> degree2;
             p2 = createPolynomial(degree2);
@@ -89,10 +94,11 @@ void polinomialCalc()
                 cin >> p2.koefs[i];
             }
             cout << "Второй многочлен: "; printPolynomial(p2);
+            cout << "\n";
             result = mulPolynomials(p1, p2);
             cout << "Результат: ";
             printPolynomial(result);
-
+            cout << endl;
             break;
         case 4:
             cout << "Введите степень многочлена: ";
@@ -104,13 +110,14 @@ void polinomialCalc()
                 cin >> p1.koefs[i];
             }
             cout << "Многочлен: "; printPolynomial(p1);
+            cout << "\n";
             double scalar;
             cout << "Введите число на которое нужно умножить: ";
             cin >> scalar;
             result = mulScalarPolynomial(p1, scalar);
             cout << "Результат: ";
             printPolynomial(result);
-
+            cout << endl;
             break;
         case 5:
             cout << "Введите первую степень многочлена: ";
@@ -122,6 +129,7 @@ void polinomialCalc()
                 cin >> p1.koefs[i];
             }
             cout << "Первый многочлен: "; printPolynomial(p1);
+            cout << "\n";
             cout << "Введите степень второго многочлена: ";
             cin >> degree2;
             p2 = createPolynomial(degree2);
@@ -131,6 +139,7 @@ void polinomialCalc()
                 cin >> p2.koefs[i];
             }
             cout << "Второй многочлен: "; printPolynomial(p2);
+            cout << "\n";
             result = divPolynomials(p1, p2);
             break;
         case 6:
@@ -143,9 +152,11 @@ void polinomialCalc()
                 cin >> p1.koefs[i];
             }
             cout << "Многочлен: "; printPolynomial(p1);
+            cout << "\n";
             result = derivativePolynomial(p1);
             cout << "Результат: ";
             printPolynomial(result);
+            cout << endl;
             break;
         default:
             cout << "Invalid operation" << endl;
@@ -162,7 +173,6 @@ void printPolynomial(Polinomial& p)
             cout << "+";
         cout << p.koefs[i] << "x^" << i << " ";
     }
-    cout << endl;
 }
 
 Polinomial createPolynomial(long degree)
@@ -269,18 +279,18 @@ Polinomial divPolynomials(Polinomial& p1, Polinomial& p2)
                 remainder.koefs[j] -= quotient * p2.koefs[j - i];
             }
         }
-        cout << "Результат: " << endl;
-        cout << "\t";
+        cout << "\nРезультат: " << endl;
+
+        cout << "(";
         printPolynomial(result);
-        cout << "\t+" << endl;
-        cout << "\t";
-        printPolynomial(remainder);
-        cout << "\t-----------------------";
+        cout << ")";
+        cout << "+(";
+        printPolynomial(remainder); cout << ")";
+        cout << "/(";
         if (p2.n <= remainder.n)
         {
-            cout << endl;
-            cout << "\t";
             printPolynomial(p2);
+            cout << ")";
         }
         cout << endl;
         return result;
