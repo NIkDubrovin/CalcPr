@@ -71,7 +71,7 @@ void clearScreen()
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     HWND hWnd = GetConsoleWindow();
     RECT rect;
-    PCONSOLE_FONT_INFO pFont = ;
+    PCONSOLE_FONT_INFO pFont = 0;
     int width = 0, heigth = 0;
     COORD coord;
 

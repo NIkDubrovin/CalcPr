@@ -107,15 +107,15 @@ Fraction createFraction()// создает дробь
 	Fraction drob1;
 	do{
 	cout << "¬ведите целую часть: "; cin >> drob1.intPart;
-	} while (isdigit(drob1.intPart));
+	} while ((!isCorrectInput())&& isdigit(drob1.intPart));
 
 	do {
 		cout << "¬ведите числитель: "; cin >> drob1.numerator;
-	} while (drob1.numerator==0);
+	} while ((!isCorrectInput()) && drob1.numerator==0);
 
 	do {
 		cout << "¬ведите знаменатель: "; cin >> drob1.denominator;
-	} while (drob1.denominator==0);
+	} while ((!isCorrectInput()) && drob1.denominator==0);
 	return drob1;
 }
 
@@ -226,6 +226,7 @@ Fraction reductinFraction(Fraction main)
 
 	while((!isSimple(main.denominator)) || (!isSimple(main.numerator)))
 	{
+		if (i == 0) return main;
 		
 		if ((main.denominator % i == 0) && (main.numerator % i == 0))
 		{
