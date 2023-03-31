@@ -38,9 +38,9 @@ int functionsCalc()
 			return 0;
 
 		calcIntegral(func);
-		drawGraph(func);
 		searchRoots(func);
 		searchExtremum(func);
+		drawGraph(func);
 
 		deleteFunc(func);
 		return 1;
@@ -62,11 +62,12 @@ func_t* createFunc(const Type& type) {
 				cout << "Неверно введеная степень";
 		} while (!isCorrectInput() && func->n < 1);
 
-		func->koefs = (double*)malloc(sizeof(double) * (func->n + 1));
+		func->n++; // a0
+		func->koefs = (double*)malloc(sizeof(double) * (func->n));
 		if (func->koefs == nullptr)
 			return nullptr;
 
-		for (int i = 0; i <= func->n; i++)
+		for (int i = 0; i < func->n; i++)
 		{
 			while (1) {
 				cout << "Введите a" << i << ": ";
@@ -117,7 +118,7 @@ func_t* createFunc(const Type& type) {
 				cout << "Error! При b <= 0 функция не определена;\n";
 			}
 
-		} while (!isCorrectInput() || (func->koefs[1] == 0.0 && type == EXPONENTIAL));
+		} while (!isCorrectInput() || (func->koefs[1] <= 0.0 && type == EXPONENTIAL));
 	}
 	else
 		return nullptr;
@@ -177,7 +178,7 @@ int calcIntegral(const func_t * func)
 	{
 	case POLYNOMIAL: 
 	{
-		for (long i = 0; i < (func->n + 1); i++)
+		for (long i = 0; i < (func->n); i++)
 		{
 			if (i != 0)
 				cout << " + ";
@@ -298,7 +299,8 @@ int funcRoots(const func_t* func, double* roots, int& rootsCount)
 	{
 	case POLYNOMIAL:
 	{
-		polynomRealRoots(func->n, func->koefs, roots, rootsCount);
+		int n = func->n - 1;
+		polynomRealRoots(n, func->koefs, roots, rootsCount);
 		if (rootsCount == 0)
 			return 0;
 		else 
@@ -307,9 +309,20 @@ int funcRoots(const func_t* func, double* roots, int& rootsCount)
 	break;
 	case POWER:
 	{
-		if (c == 0.0 || a == 0.0)
+		if (a == 0.0)
 		{
-			return 0;
+			if (b > 0.0 && c == 0.0)
+			{
+				root = 0.0;
+			} else
+				return 0;
+		}
+		else if (c == 0.0) 
+		{
+			if (b > 0.0)
+				root = 0.0;
+			else
+				return 0;
 		}
 		else if (b == 0.0) {
 			if (abs(-c / a - 1.0) < minExp)
@@ -322,6 +335,14 @@ int funcRoots(const func_t* func, double* roots, int& rootsCount)
 		else
 		{
 			root = pow(-c / a, 1.0 / b);
+			
+			if ((b - float((int)b) < minExp) && int(b) % 2 == 0)
+			{
+				roots[0] = root;
+				roots[1] = -root;
+				rootsCount = 2;
+				return 2;
+			}		
 		}
 	}
 	break;
@@ -388,6 +409,149 @@ int funcRoots(const func_t* func, double* roots, int& rootsCount)
 	return 2;
 }
 
+int funcExtremums(const func_t* func, double& A, double& B, double* extremums, int& extremumsCount)
+{
+	double * roots = nullptr, * nkoefs = nullptr, y1 = 0, y2 = 0, yA = 0, yB = 0;
+	int rootsCount = 0, res = 0, a = 0, b = 1, c = 2, d = 3;
+	func_t t_func;
+
+	extremumsCount = 0;
+
+	if (!copyFunc(&t_func, func) || extremums == nullptr)
+		return 0;
+
+	if (func->n < 1 || !isTypeFunc(func->type) || A > B)
+		return 0;
+
+	// hasnt extremums
+	if (t_func.type == LOG || t_func.type == EXPONENTIAL)
+	{
+		return 1;
+	}
+
+	// polynomial: n - 1 + A, B
+	// others: n + A,B
+	if ((roots = (double*)malloc(sizeof(double) * (t_func.n + 2))) == nullptr)
+		return 0;
+
+	if (t_func.type == POLYNOMIAL)
+	{
+		for (int i = 1; i < t_func.n; i++)
+		{
+			t_func.koefs[i - 1] = t_func.koefs[i] * double(i);
+		}
+
+		t_func.n--;
+		res = funcRoots(&t_func, roots, rootsCount);
+	}
+	else
+	{
+		switch (t_func.type)
+		{
+		case POWER:
+			t_func.koefs[a] = t_func.koefs[a] * t_func.koefs[b];
+			t_func.koefs[b] = t_func.koefs[b] - 1.0;
+			t_func.koefs[c] = 0;
+
+			res = funcRoots(&t_func, roots, rootsCount);
+
+			break;
+		case SIN:
+			t_func.koefs[a] = t_func.koefs[a] * t_func.koefs[b];
+			t_func.koefs[d] = 0;
+			t_func.type = COS;
+
+			res = funcRoots(&t_func, roots, rootsCount);
+			break;
+		case COS:
+			t_func.koefs[a] = -1.0 * t_func.koefs[a] * t_func.koefs[b];
+			t_func.koefs[d] = 0;
+			t_func.type = SIN;
+
+			res = funcRoots(&t_func, roots, rootsCount);
+			break;
+		default:
+			deleteFunc(&t_func);
+			return 0;
+			break;
+		}
+	}
+
+	if (res == -1)
+	{
+		free(roots);
+		deleteFunc(&t_func);
+		return 0;
+	} else if (res == 0 || res == -1)// if R || 0; 
+	{
+		// check -inf < A < B
+		if (funcValue(&t_func, A - minExp, &y1) &&
+			funcValue(&t_func, B, &y2))
+		{
+			if (y1 * y2 < 0.0)
+			{
+				extremums[extremumsCount] = A;
+				extremumsCount++;
+			}
+		}
+
+		// check A < B < +inf
+		if (funcValue(&t_func, A, &y1) &&
+			funcValue(&t_func, B + minExp, &y2))
+		{
+			if (y1 * y2 < 0.0)
+			{
+				extremums[extremumsCount] = B;
+				extremumsCount++;
+			}
+		}
+	}
+	else // if rootsCount > 0
+	{
+		// check -inf < A < A + minexp
+		if (funcValue(&t_func, A - minExp, &y1) &&
+			funcValue(&t_func, A + minExp, &y2))
+		{
+			if (y1 * y2 < 0.0)
+			{
+				extremums[extremumsCount] = A;
+				extremumsCount++;
+			}
+		}
+
+		// check B - exp < B < B + exp
+		if (funcValue(&t_func, B - minExp, &y1) &&
+			funcValue(&t_func, B + minExp, &y2))
+		{
+			if (y1 * y2 < 0.0)
+			{
+				extremums[extremumsCount] = B;
+				extremumsCount++;
+			}
+		}
+
+		for (long i = 0; i < rootsCount; i++)
+		{
+			if (funcValue(&t_func, roots[i] - minExp, &y1) &&
+				funcValue(&t_func, roots[i] + minExp, &y2))
+			{
+				if (y1 * y2 < 0.0)
+				{
+					extremums[extremumsCount] = roots[i];
+					extremumsCount++;
+				}
+			}
+		}
+	}
+
+	free(roots);
+
+	//deleteFunc(&t_func); //	isnt dynamic memory
+	free(t_func.koefs);
+
+	return 1;
+}
+
 int searchRoots(const func_t* func)
 {
 	double A = 0, B = 0, a = 0, b = 0, c = 0, d = 0, * roots = nullptr;
@@ -423,9 +587,18 @@ int searchRoots(const func_t* func)
 		return 0;
 	}
 		
+	if (func->type != POLYNOMIAL) {
+		a = func->koefs[0];
+		b = func->koefs[1];
+		c = func->koefs[2];
+
+		if (func->n == 4)
+			d = func->koefs[3];
+	}
+
 	if (func->type == POLYNOMIAL) 
 	{
-		for (long i = 0; i < (func->n + 1); i++)
+		for (long i = 0; i < (func->n); i++)
 		{
 			if (i != 0)
 				cout << " + ";
@@ -449,19 +622,19 @@ int searchRoots(const func_t* func)
 		switch (func->type)
 		{
 		case POWER:
-			cout << a << " * x^" << b << " + " << c << endl;;
+			cout << a << " * x^" << b << " + " << c << " = 0\nКорни: ";
 			break;
 		case EXPONENTIAL: 
-			cout << a << " * " << b << "^(" << c << " * x) + " << d << endl;
+			cout << a << " * " << b << "^(" << c << " * x) + " << d  << " = 0\nКорни: ";
 			break;
 		case LOG: 
-			cout << a << " * ln(" << b << " * x) + " << c << endl;;
+			cout << a << " * ln(" << b << " * x) + " << c  << " = 0\nКорни: ";
 			break;
 		case SIN:
-			cout << a << " * sin(" << b << " * x + " << c << ") + " << d << endl;
+			cout << a << " * sin(" << b << " * x + " << c << ") + " << d << " = 0\nКорни: ";
 			break;
 		case COS:
-			cout << a << " * cos(" << b << " * x + " << c << ") + " << d << endl;
+			cout << a << " * cos(" << b << " * x + " << c << ") + " << d << " = 0\nКорни: ";
 			break;
 		default:
 			break;
@@ -470,25 +643,27 @@ int searchRoots(const func_t* func)
 		if (res == 0)
 			cout << "Корней нет;" << endl;
 		else if (res == 1)
-			cout << "R" << endl;
-		else
-			cout << roots[0] << endl;
+			cout << "[" << A << ", " << B << "]" << endl;
+		else 
+		{
+			for (long i = 0; i < rootsCount; i++)
+			{
+				if(roots[i] <= B && roots[i] >= A)
+					cout << roots[i] << " ";
+			}
+			cout << endl;
+		}	
 	}
 
 	free(roots);
 	return 1;
 }
 
+// extremums cant be nullptr
 int searchExtremum(const func_t* func)
 {
-	double A = 0, B = 0, a = 0, b = 0, c = 0, d = 0, * roots = nullptr, * nkoefs = nullptr;
-	int rootsCount = 0, res = 0;
-
-	if (func == nullptr)
-		return 0;
-
-	if (func->koefs == nullptr)
-		return 0;
+	double A = 0, B = 0, * extremums = nullptr;
+	int extremumsCounts = 0, res = 0;
 
 	if (func->n < 1 || !isTypeFunc(func->type))
 		return 0;
@@ -505,68 +680,120 @@ int searchExtremum(const func_t* func)
 			cout << "Error! A > B;\n";
 	} while (!isCorrectInput() || A > B);
 
-	if(func->type == LOG || func->type == EXPONENTIAL)
-	{
-		cout << "Экстремумов нет;\n";
-		return 1;
-	}
-
-	if ((roots = (double*)malloc(sizeof(double) * func->n)) == nullptr)
+	// rootsCount + A,B
+	if ((extremums = (double*)malloc(sizeof(double) * (func->n + 2))) == nullptr)
 		return 0;
 
+	cout << "Экстремумы функции: ";
 	
-	if (func->type == POLYNOMIAL)
+	if (!funcExtremums(func, A, B, extremums, extremumsCounts))
 	{
-		func->koefs[0] = func->koefs[1]; // a0 = a1
-		for (int i = 1; i < func->n; i++)
-		{
-			func->koefs[i - 1] = func->koefs[i] * i;
-		}
-
-		//func->n = func->n - 1;
-
-		res = funcRoots(func, roots, rootsCount);
-
-		if (res == 0)
-			cout << "";
-		else
-			for (long i = 0; i < rootsCount; i++)
-			{
-				cout << roots[i] << " ";
-			}
-
-		cout << endl;
+		cout << "Error!\n";
 	}
 	else
 	{
-		switch (func->type)
+		for (int i = 0; i < extremumsCounts; i++)
 		{
-		case POWER:
-			cout << a << " * x^" << b << " + " << c << endl;;
-			break;
-		case EXPONENTIAL:
-			cout << a << " * " << b << "^(" << c << " * x) + " << d << endl;
-			break;
-		case LOG:
-			cout << a << " * ln(" << b << " * x) + " << c << endl;;
-			break;
-		case SIN:
-			cout << a << " * sin(" << b << " * x + " << c << ") + " << d << endl;
-			break;
-		case COS:
-			cout << a << " * cos(" << b << " * x + " << c << ") + " << d << endl;
-			break;
-		default:
-			break;
+			cout << extremums[i] << " ";
 		}
 
+		cout << endl;
 	}
 
-	return 0;
+
+	free(extremums);
+	return 1;
 }
 
 // return (type >= 0 && type <= 5);
 int isTypeFunc(int type)
 {
 	return (type >= 0 && type <= 5);
+}
+
+// return 0 if y = nan || = inf
+// return 1 if y
+int funcValue(const func_t* func, double x, double* y)
+{
+	double a = 0, b = 0, c = 0, d = 0, f = 0;
+
+	if (func == nullptr)
+		return 0;
+
+	if (func->koefs == nullptr || !isTypeFunc(func->type))
+		return 0;
+
+	if (func->type != POLYNOMIAL) {
+		a = func->koefs[0];
+		b = func->koefs[1];
+		c = func->koefs[2];
+
+		if (func->n == 4)
+			d = func->koefs[3];
+	}
+
+	switch (func->type)
+	{
+	case POLYNOMIAL:
+	{
+		f += func->koefs[0]; // a0
+		for (int i = 1; i < func->n; i++)
+		{
+			f += func->koefs[i] * pow(x, double(i));
+		}
+	}
+	break;
+	case POWER:
+	{
+		f = a * pow(x, b) + c;
+	}
+	break;
+	case EXPONENTIAL:
+	{
+		f = a * pow(b, c * x) + d;
+		
+	}
+	break;
+	case LOG:
+	{
+		f = a * log(b * x) + c;
+	}
+	break;
+	case SIN:
+	{
+		f = a * sin(b * x + c) + d;
+	}
+	break;
+	case COS:
+	{
+		f = a * cos(b * x + c) + d;
+	}
+	break;
+	default: return 0;
+	}
+
+	if (std::isnan(f) || std::isinf(f))
+		return 0;
+	else
+		*y = f;
+
+	return 1;
+}
+
+// create new distination func
+int copyFunc(func_t* dist, const func_t* src)
+{
+	if(dist == nullptr && src == nullptr)
+		return 0;
+
+	dist->n = src->n;
+	dist->type = src->type;
+
+	dist->koefs = (double*)malloc(dist->n * sizeof(double));
+	if (dist->koefs == nullptr)
+		return 0;
+
+	memcpy(dist->koefs, src->koefs, dist->n * sizeof(double));
+
+	return 1;
 }

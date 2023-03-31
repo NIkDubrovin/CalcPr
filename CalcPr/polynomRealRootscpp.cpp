@@ -6,7 +6,7 @@ double polinom(int n, double x, double* k)
 //ïîëèíîì âèäà x^n+k[n-1]*x^(n-1)+k[n-2]*x^(n-2)+...+k[1]*x+k[0]
 //ñî ñòàğøèì êîıôôèöèåíòîì, ğàâíûì åäèíèöå
 {
-	double s = 1;
+	double s = 1.0;
 	for (int i = n - 1; i >= 0; i--)
 		s = s * x + k[i];
 	return s;
