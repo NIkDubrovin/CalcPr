@@ -45,7 +45,10 @@ do{
 			break;
 		}
 		case 7: 
+		{
+			system("cls");
 			break;
+		}
 		}
 
 	} while (choice != 7);
@@ -53,11 +56,36 @@ do{
 
 long AwithRepeat()
 {
+	system("cls");
 	cout << "¬ы выбрали формулу размещени€ с повторени€ми: " << endl;
 	cout << "A = n^k" << endl;
 	double n, k, n1, k1;
-	cout << "¬ведите два числа: n и k" << endl;
-	cin >> n >> k;
+	cout << "¬ведите число n: ";
+	cin >> n;
+	while (n < 0 || !isCorrectInput())
+	{
+		if (n < 0)
+		{
+			cout << "n не может быть меньше 0. ¬ведите число n: "; cin >> n;
+		}
+		else
+		{
+			cout << "¬ведите число n: "; cin >> n;
+		}
+	}
+	cout << "¬ведите число k: ";
+	cin >> k;
+	while (k < 0 || !isCorrectInput())
+	{
+		if (k < 0)
+		{
+			cout << "k не может быть меньше 0. ¬ведите число k: "; cin >> k;
+		}
+		else
+		{
+			cout << "¬ведите число k: "; cin >> k;
+		}
+	}
 	n1 = n; k1 = k;
 	if (k == 0)
 		n = 1;
@@ -77,19 +105,38 @@ long AwithRepeat()
 
 long AwithoutRepeat()
 {
+	system("cls");
 	cout << "¬ы выбрали формулу размещени€ без повторений: " << endl;
 	cout << "    n!    " << endl;
 	cout << "----------" << endl;
 	cout << " (n - k)! " << endl;
 	double n, k, A;
-	cout << "¬ведите два числа: n и k" << endl;;
-	cin >> n >> k;
-	while (n < 0)
+	cout << "¬ведите число n: ";
+	cin >> n;
+	while (n < 0 || !isCorrectInput())
 	{
-		cout << "n не может быть отрицательным. ¬ведите число n: "; cin >> n;
+		if (n < 0)
+		{
+			cout << "n не может быть отрицательным. ¬ведите число n: "; cin >> n;
+		}
+		else
+		{
+			cout << "¬ведите число n : "; cin >> n;
+		}
 	}
-	while (k > n)
-	{cout << "k не может быть больше n. ¬ведите k: "; cin >> k;}
+	cout << "¬ведите число k: "; cin >> k;
+	while (k > n || !isCorrectInput())
+	{
+		if (k > n)
+		{
+			cout << "k не может быть больше n. ¬ведите k: "; cin >> k;
+		}
+		else
+		{
+			cout << "¬ведите k: "; cin >> k;
+		}
+	}
+
 	A = fact(n) / fact(n - k);
 	cout << "            " << n << "! " << endl;
 	cout << "A n k = ---------- = " << A << endl;
@@ -99,21 +146,46 @@ long AwithoutRepeat()
 
 long PwithRepeat()
 {
+	system("cls");
 	cout << "¬ы выбрали формулу перестановки с повторени€ми: " << endl;
 	cout << "   n!   " << endl;
 	cout << "---------  "<< endl;
 	cout << "n1!...ni!" << endl;
 	double n, k, P, prom = 0;
-	cout << "¬ведите два числа: n и k" << endl;
-	cin >> n >> k;
-	while (n < 0 && k < 1)
+	cout << "¬ведите число n: ";
+	cin >> n;
+	while (n < 0 || !isCorrectInput())
 	{
-		cout << "Ќекорректный ввод. ¬ведите два числа: n и k" << endl; cin >> n >> k;
+		if (n < 0)
+		{
+			cout << "n не может быть меньше 0. ¬ведите число n: "; cin >> n;
+		}
+		else
+		{
+			cout << "¬ведите число n: "; cin >> n;
+		}
+	}
+	cout << "¬ведите число k: ";
+	cin >> k;
+	while (k < 1 || !isCorrectInput())
+	{
+		if (k < 1)
+		{
+			cout << "k не может быть меньше 1. ¬ведите число k: "; cin >> k;
+		}
+		else
+		{
+			cout << "¬ведите число k: "; cin >> k;
+		}
 	}
 	double* ni = (double*)malloc(sizeof(double) * (k + 1));
 	for (int i = 1; i < k + 1; i++)
 	{
 		cout << "¬ведите n" << i << ": "; cin >> ni[i];
+		while (!isCorrectInput())
+		{
+			cout << "¬ведите n" << i << ": "; cin >> ni[i];
+		}
 	}
 	for (int i = 1; i < k + 1; i++)
 	{
@@ -129,21 +201,30 @@ long PwithRepeat()
 
 long PwithoutRepeat()
 {
+	system("cls");
 	cout << "¬ы выбрали формулу перестановки без повторений: " << endl;
 	cout << "P = n!" << endl;
 	int n;
 	cout << "¬ведите число n: ";
 	cin >> n;
-	while (n < 0)
-	{
-		cout << "n не может быть отрицательным. ¬ведите число n: "; cin >> n;
+	while (n < 0 || !isCorrectInput())
+	{	
+		if (n < 0)
+		{
+			cout << "n не может быть отрицательным. ¬ведите число n: "; cin >> n;
+		}
+		else
+		{
+			cout << "¬ведите число n: "; cin >> n;
+		}
 	}
-	cout <<endl << "P = " << n << "! = " << fact(n);
+	cout << endl << "P = " << n << "! = " << fact(n) << endl;
 	return 0;
 }
 
 long CwithRepeat()
 {
+	system("cls");
 	cout << "¬ы выбрали формулу сочетани€ с повторени€ми: " << endl;
 	cout << " (n + k - 1)!    " << endl;
 	cout << "--------------" << endl;
@@ -151,11 +232,33 @@ long CwithRepeat()
 	double n, k;
 	double C;
 
-	cout << "¬ведите два числа: n и k" << endl;
-	cin >> n >> k;
-	while (k < 0 || n < 1)
+	cout << "¬ведите число n: ";
+	cin >> n;
+	while (n < 1 || !isCorrectInput())
 	{
-		cout << "¬вод некорректен. ¬ведите два числа: n и k" << endl; cin >> n >> k;
+		if (n < 1)
+		{
+			cout << "n не может быть меньше 1. ¬ведите число n : "; cin >> n;
+		}
+		else
+		{
+			cout << "¬ведите число n : "; cin >> n;
+		}
+
+	}
+	cout << "¬ведите число k: ";
+	cin >> k;
+	while (k < 0 || !isCorrectInput())
+	{
+		if (k < 0)
+		{
+			cout << "k не может быть меньше 0. ¬ведите число k : "; cin >> k;
+		}
+		else
+		{
+			cout << "¬ведите число k : "; cin >> k;
+		}
+
 	}
 	C = static_cast<double>(fact(n + k - 1)) / fact(k) * fact(n - 1);
 	cout << "     (" << n << " + " << k << " - 1)!" << endl;
@@ -166,16 +269,39 @@ long CwithRepeat()
 
 long CwithoutRepeat()
 {
-	cout << "¬ы выбрали формулу сочетани€ с повторени€ми: " << endl;
+	system("cls");
+	cout << "¬ы выбрали формулу сочетани€ без повторений: " << endl;
 	cout << "     (n)!    " << endl;
 	cout << "--------------" << endl;
 	cout << " (k)! * (n-k)! " << endl;
 	double n, k;
 	double C;
-	cout << "¬ведите два числа: n и k" << endl;
-	cin >> n >> k;
-	while (k > n)
-	{cout << "k не может быть больше n. ¬ведите k: "; cin >> k;}
+	cout << "¬ведите число n: ";
+	cin >> n;
+	while (n < 0 || !isCorrectInput())
+	{
+		if (n < 0)
+		{
+			cout << "n не может быть меньше 0. ¬ведите n: "; cin >> n;
+		}
+		else
+		{
+			cout << "¬ведите n: "; cin >> n;
+		}
+	}
+	cout << "¬ведите число k: ";
+	cin >> k;
+	while (k > n || !isCorrectInput())
+	{
+		if (k > n)
+		{
+			cout << "k не может быть больше n. ¬ведите k: "; cin >> k;
+		}
+		else
+		{
+			cout << "¬ведите k: "; cin >> k;
+		}
+	}
 	C = static_cast<double>(fact(n)) / (fact(k) * fact(n - k));
 	cout << "         (" << n << ")!" << endl;
 	cout << "C = -------------- = " << C << endl;
