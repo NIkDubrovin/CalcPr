@@ -37,8 +37,7 @@ void statisticCalc()
 		}break;
 		case 3:
 		{
-
-
+			findM();
 		}break;
 		}
 	} while (choose != 4);
@@ -69,11 +68,7 @@ void findDispersion()
 	}
 
 	// математическое ожидание
-	for (int i = 0; i < n; i++) {
-		x = values[i];
-		p = probabilities[i];
-		mean += x * p;
-	}
+	findMCalc(n, mean, values, probabilities);
 
 	// дисперсия
 	dispersion = 0;
@@ -84,9 +79,37 @@ void findDispersion()
 		dispersion += sum;
 	}
 	cout << "Дисперсия = " << dispersion << endl;
+	free(values);
+	free(probabilities);
 }
 
-double findM(Odd* odds, long size)
+void findM() 
 {
-	return 0.0;
+	long cn;
+	double M = 0;
+	cout << "Введите количество значений: "; cin >> cn;
+	while (cn < 0)
+	{
+		cout << "Количество значений не может быть равно нулю или быть отрицательным. Введите количество значений: "; cin >> cn;
+	}
+	double* values = (double*)malloc(sizeof(double) * cn);
+	double* probabilities = (double*)malloc(sizeof(double) * cn);
+	for (int i = 0; i < cn; i++)
+	{
+		cout << "Введите значение и вероятность для " << i + 1 << " элемента: "; cin >> values[i] >> probabilities[i];
+	}
+	findMCalc(cn, M, values, probabilities);
+	cout << "Математическое ожидание: " << M << endl;
+	free(values);
+	free(probabilities);
+}
+void findMCalc(long& cn, double& M, double * values, double * probabilities)
+{
+	double x, p;
+	for (int i = 0; i < cn; i++)
+	{
+		x = values[i];
+		p = probabilities[i];
+		M += p * x;
+	}
 }
