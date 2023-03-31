@@ -5,6 +5,7 @@
 #include "Fractions.h"
 #include "Statistics.h"
 #include "Polinomials.h"
+#include "sdl/include/SDL.h"
 
 int main()
 {
@@ -70,14 +71,14 @@ void clearScreen()
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     HWND hWnd = GetConsoleWindow();
     RECT rect;
-    PCONSOLE_FONT_INFO pFont = nullptr;
+    PCONSOLE_FONT_INFO pFont = ;
     int width = 0, heigth = 0;
     COORD coord;
 
-    if (GetWindowRect(hWnd, &rect) != 0)
-    {
-        GetCurrentConsoleFont(consoleHandle, FALSE, pFont);
+    GetCurrentConsoleFont(consoleHandle, FALSE, pFont);
 
+    if (GetWindowRect(hWnd, &rect) != 0 && pFont != nullptr)
+    {
         if (pFont != nullptr)
         {
             width = pFont->dwFontSize.X;
