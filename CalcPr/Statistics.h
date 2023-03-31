@@ -1,5 +1,8 @@
 #pragma once
-// Дубровин
+#include "Calc.h"
+#include <malloc.h>
+// Гаврилов дисперсия и вероятность
+// Cтафеев мат ожидание
 
 typedef struct Odd {
 	double x;
@@ -8,5 +11,5 @@ typedef struct Odd {
 
 void statisticCalc();
 double findProbability(long n, long m);
-double findDispersion(Odd* odds, long size, double M);
+void findDispersion();
 double findM(Odd* odds, long size);

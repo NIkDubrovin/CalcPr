@@ -6,85 +6,86 @@ void fractionsCalc()
 	unsigned char test;
 	double vyv;
 	int choose = -2;
-	//main2 = createFraction();
-	//main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-	do{
-	cout << "enter 1 for choose amount\nenter 2 for choose subtraction\nenter 3 for choose multiplication\nenter 4 for choose div\nenter 5 for choose comparison\nenter 6 for choose reduction\nenter 7 for choose converting fractions to decimal\n";
-	cin >> choose;
-	} while ((choose > 8) || (choose < 1));
-	switch (choose)
+	do
 	{
-	case 1:
-	{
-		cout << "enter elements first fraction: " << endl;
-		main1 = createFraction();
-		cout << "enter elements second fraction: " << endl;
-		main2 = createFraction();
-		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-		summa = addFraction(main1, main2);
-		outputFraction(summa);
-	}break;
-	case 2:
-	{
-		cout << "enter elements first fraction: " << endl;
-		main1 = createFraction();
-		cout << "enter elements second fraction: " << endl;
-		main2 = createFraction();
-		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-		summa = subFraction(main1, main2);
-		outputFraction(summa);
-	}break;
-	case 3:
-	{
-		cout << "enter elements first fraction: " << endl;
-		main1 = createFraction();
-		cout << "enter elements second fraction: " << endl;
-		main2 = createFraction();
-		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-		summa = mulFraction(main1, main2);
-		outputFraction(summa);
-	}break;
-	case 4:
-	{
-		cout << "enter elements first fraction: " << endl;
-		main1 = createFraction();
-		cout << "enter elements second fraction: " << endl;
-		main2 = createFraction();
-		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-		summa = divFraction(main1, main2);
-		outputFraction(summa);
-	}break;
-	case 5:
-	{
-		cout << "enter elements first fraction: " << endl;
-		main1 = createFraction();
-		cout << "enter elements second fraction: " << endl;
-		main2 = createFraction();
-		main1 = reductinFraction(main1); main2 = reductinFraction(main2);
-		test = compareFraction(main1, main2);
-		cout << "1 fraction " << test << " 2 fraction"<<endl;
-		
-	}break;
-	case 6:
-	{
-		cout << "enter elements fraction: " << endl;
-		main1 = createFraction();
-		main1 = reductinFraction(main1);
-	
-		outputFraction(main1);
-	}break;
-	case 7:
-	{
-		cout << "enter elements fraction: " << endl;
-		main1 = createFraction();
-		main1 = reductinFraction(main1);
-		vyv = decimalFraction(main1);
-		cout << vyv << endl;
-	}break;
-	}
+		do {
+			cout << "Выберите действие:\n1 - сложение дробей\n2 - вычитание дробей\n3 - умножение дробей\n4 - деление дробей\n5 - сравнение дробей\n6 - сокращение дроби\n7 - представление дроби в виде десятичной\n8 - выход в главное меню\n";
+			cin >> choose;
+		} while ((choose > 9) || (choose < 1));
+		switch (choose)
+		{
+		case 1:// сложение 
+		{
+			cout << "Введите элементы первой дроби: " << endl;
+			main1 = createFraction();
+			cout << "Введите элементы второй дроби: " << endl;
+			main2 = createFraction();
+			main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+			summa = addFraction(main1, main2);
+			outputFraction(summa);
+		}break;
+		case 2:// вычитание
+		{
+			cout << "Введите элементы первой дроби: " << endl;
+			main1 = createFraction();
+			cout << "Введите элементы второй дроби: " << endl;
+			main2 = createFraction();
+			main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+			summa = subFraction(main1, main2);
+			outputFraction(summa);
+		}break;
+		case 3: // умножение
+		{
+			cout << "Введите элементы первой дроби: " << endl;
+			main1 = createFraction();
+			cout << "Введите элементы второй дроби: " << endl;
+			main2 = createFraction();
+			main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+			summa = mulFraction(main1, main2);
+			outputFraction(summa);
+		}break;
+		case 4://деление
+		{
+			cout << "Введите элементы первой дроби: " << endl;
+			main1 = createFraction();
+			cout << "Введите элементы второй дроби: " << endl;
+			main2 = createFraction();
+			main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+			summa = divFraction(main1, main2);
+			outputFraction(summa);
+		}break;
+		case 5://сравнение
+		{
+			cout << "Введите элементы первой дроби: " << endl;
+			main1 = createFraction();
+			cout << "Введите элементы второй дроби: " << endl;
+			main2 = createFraction();
+			main1 = reductinFraction(main1); main2 = reductinFraction(main2);
+			test = compareFraction(main1, main2);
+			cout << "1 fraction " << test << " 2 fraction" << endl;
+
+		}break;
+		case 6:// сокращение
+		{
+			cout << "Введите элементы дроби: " << endl;
+			main1 = createFraction();
+			main1 = reductinFraction(main1);
+
+			outputFraction(main1);
+		}break;
+		case 7:// представление в виде десятичной
+		{
+			cout << "Введите элементы дроби: " << endl;
+			main1 = createFraction();
+			main1 = reductinFraction(main1);
+			vyv = decimalFraction(main1);
+			cout << vyv << endl;
+		}break;
+		}
+	} while (choose != 8);
 }
 
-int isSimple(int num)
+int isSimple(int num)// функция проверяет является ли число простым(делится на себя и на 1)
 {
 	int k = 0;
 	for (int i = 2; i < num;++i)
@@ -95,13 +96,13 @@ int isSimple(int num)
 	return 1;
 }
 
-void outputFraction(const Fraction& out)
+void outputFraction(const Fraction& out)// выводит дробь
 {
 	cout << "   " << out.numerator << endl;
 	cout << out.intPart << " --- " << endl;
 	cout << "   " << out.denominator<<endl;
 }
-Fraction createFraction()
+Fraction createFraction()// создает дробь
 {
 	Fraction drob1;
 	do{
@@ -121,7 +122,7 @@ Fraction createFraction()
 Fraction addFraction(const Fraction& main1,const Fraction& main2)
 {
 	Fraction Summa;
-	
+	// логика: если знаменители равно, то складываем числители и ответ готов, если же нет, то приводим к общему знаменателю.
 	Summa.intPart = main1.intPart + main2.intPart;
 	if (main1.denominator == main2.denominator)
 	{
@@ -143,7 +144,7 @@ Fraction addFraction(const Fraction& main1,const Fraction& main2)
 Fraction subFraction(const Fraction& main1, const Fraction& main2)
 {
 	Fraction Sub;
-
+	// логика: если знаменители равно, то складываем числители и ответ готов, если же нет, то приводим к общему знаменателю.
 	Sub.intPart = main1.intPart + main2.intPart;
 	if (main1.denominator == main2.denominator)
 	{
@@ -163,6 +164,7 @@ Fraction subFraction(const Fraction& main1, const Fraction& main2)
 
 Fraction mulFraction(const Fraction& main1, const Fraction& main2)
 {
+	//логика: умножаем числитель на числитель знам на знам и отправляем на сокращение
 	Fraction mul;
 	mul.intPart = 0;
 	mul.numerator = main1.numerator * main2.numerator;
@@ -173,6 +175,7 @@ Fraction mulFraction(const Fraction& main1, const Fraction& main2)
 }
 Fraction divFraction(const Fraction& main1, const Fraction& main2)
 {
+	// тоже самое что и умножние но переворачиваем дробь;
 	Fraction div;
 	div.intPart = 0;
 	div.numerator = main1.numerator * main2.denominator;
@@ -183,6 +186,8 @@ Fraction divFraction(const Fraction& main1, const Fraction& main2)
 
 unsigned char compareFraction(Fraction& main1, Fraction& main2)
 {
+	// подразумает собой, чтобы подается неправильная дробь без целой части
+	//логика: если знаметели равны то сравниваем числители , если нет то приводим к общему и сравниваем
 	if (main1.denominator == main2.denominator)
 	{
 		if (main1.numerator > main2.numerator) return '>';
@@ -203,7 +208,9 @@ unsigned char compareFraction(Fraction& main1, Fraction& main2)
 }
 
 Fraction reductinFraction(Fraction main)
-{
+{// сокращение дробей
+	// логика: вначале убираем целую часть, превращаем дробь в неправильную. Потом выбираем большее число из числителя и знаменателя. Из большего числа вычитаем по единице и проверяем делятся ли и числитель и знаменатель
+	//Цикл идет до тех пор, пока или числитель или знаменатель не станут простыми числами.
 	int i;
 	if (main.intPart != 0)
 	{
@@ -230,7 +237,7 @@ Fraction reductinFraction(Fraction main)
 	return main;
 }
 
-double decimalFraction(const Fraction& test)
+double decimalFraction(const Fraction& test)// дробь -> десятичная
 {
 	return (double(test.numerator )/ double(test.denominator));
 }
