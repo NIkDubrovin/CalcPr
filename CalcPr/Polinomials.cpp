@@ -23,12 +23,15 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень первого многочлена: ";
                 cin >> degree1;
-            } while (degree1 < 0);
+            } while (!isCorrectInput()||degree1<0);
             p1 = createPolynomial(degree1);
-            cout << "¬ведите коэффициенты первого многочлена: ";
             for (int i = degree1; i >= 0; i--)
             {
-                cin >> p1.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты первого многочлена: ";
+                    cin >> p1.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "ѕервый многочлен: "; printPolynomial(p1);
             cout << "\n";
@@ -38,13 +41,17 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень второго многочлена: ";
                 cin >> degree2;
-            } while (degree2<0);
+            } while (!isCorrectInput() || degree2<0);
            
             p2 = createPolynomial(degree2);
-            cout << "¬ведите коэффициенты второго многочлена: ";
+            
             for (int i = degree2; i >= 0; i--)
             {
-                cin >> p2.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты второго многочлена: ";
+                    cin >> p2.koefs[i];
+                } while (!isCorrectInput());
             }
 
             cout << "¬торой многочлен: ";
@@ -62,12 +69,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень первого многочлена: ";
                 cin >> degree1;
-            } while (degree1 < 0);
+            } while (!isCorrectInput() || degree1 < 0);
             p1 = createPolynomial(degree1);
-            cout << "¬ведите коэффициенты первого многочлена: ";
+            
             for (int i = degree1; i >= 0; i--)
             {
-                cin >> p1.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты первого многочлена: ";
+                    cin >> p1.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "ѕервый многочлен: "; printPolynomial(p1);
             cout << "\n";
@@ -75,12 +86,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень второго многочлена: ";
                 cin >> degree2;
-            } while (degree2 < 0);
+            } while (!isCorrectInput() || degree2 < 0);
             p2 = createPolynomial(degree2);
-            cout << "¬ведите коэффициенты второго многочлена: ";
+           
             for (int i = degree2; i >= 0; i--)
             {
-                cin >> p2.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты второго многочлена: ";
+                    cin >> p2.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "¬торой многочлен: ";
             printPolynomial(p2);
@@ -95,12 +110,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень первого многочлена: ";
                 cin >> degree1;
-            } while (degree1 < 0);
+            } while (!isCorrectInput() || degree1 < 0);
             p1 = createPolynomial(degree1);
-            cout << "¬ведите коэффициенты первого многочлена: ";
+            
             for (int i = degree1; i >= 0; i--)
             {
-                cin >> p1.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты первого многочлена: ";
+                    cin >> p1.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "ѕервый многочлен: "; printPolynomial(p1);
             cout << "\n";
@@ -108,12 +127,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень второго многочлена: ";
                 cin >> degree2;
-            } while (degree2 < 0);
+            } while (!isCorrectInput() || degree2 < 0);
             p2 = createPolynomial(degree2);
-            cout << "¬ведите коэффициенты второго многочлена: ";
+            
             for (int i = degree2; i >= 0; i--)
             {
-                cin >> p2.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты второго многочлена: ";
+                    cin >> p2.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "¬торой многочлен: "; printPolynomial(p2);
             cout << "\n";
@@ -127,12 +150,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень  многочлена: ";
                 cin >> degree1;
-            } while (degree1 < 0);
+            } while (!isCorrectInput() || degree1 < 0);
             p1 = createPolynomial(degree1);
-            cout << "¬ведите коэффициенты многочлена: ";
+            
             for (int i = degree1; i >= 0; i--)
             {
-                cin >> p1.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты многочлена: ";
+                    cin >> p1.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "ћногочлен: "; printPolynomial(p1);
             cout << "\n";
@@ -149,12 +176,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень первого многочлена: ";
                 cin >> degree1;
-            } while (degree1 < 0);
+            } while (!isCorrectInput() || degree1 < 0);
             p1 = createPolynomial(degree1);
-            cout << "¬ведите коэффициенты первого многочлена: ";
+           
             for (int i = degree1; i >= 0; i--)
             {
-                cin >> p1.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты первого многочлена: ";
+                    cin >> p1.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "ѕервый многочлен: "; printPolynomial(p1);
             cout << "\n";
@@ -162,12 +193,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень второго многочлена: ";
                 cin >> degree2;
-            } while (degree2 < 0);
+            } while (!isCorrectInput() || degree2 < 0);
             p2 = createPolynomial(degree2);
-            cout << "¬ведите коэффициенты второго многочлена: ";
+            
             for (int i = degree2; i >= 0; i--)
             {
-                cin >> p2.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты второго многочлена: ";
+                    cin >> p2.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "¬торой многочлен: "; printPolynomial(p2);
             cout << "\n";
@@ -178,12 +213,16 @@ void polinomialCalc()
             {
                 cout << "¬ведите степень  многочлена: ";
                 cin >> degree1;
-            } while (degree1 < 0);
+            } while (!isCorrectInput() || degree1 < 0);
             p1 = createPolynomial(degree1);
-            cout << "¬ведите коэффициенты многочлена: ";
+            
             for (int i = degree1; i >= 0; i--)
             {
-                cin >> p1.koefs[i];
+                do
+                {
+                    cout << "¬ведите коэффициенты многочлена: ";
+                    cin >> p1.koefs[i];
+                } while (!isCorrectInput());
             }
             cout << "ћногочлен: "; printPolynomial(p1);
             cout << "\n";
