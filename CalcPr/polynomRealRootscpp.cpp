@@ -1,5 +1,6 @@
 #include "polynomRealRoots.h"
 #include <math.h>
+#include <iostream>
 
 //*************************************************************************
 double polinom(int n, double x, double* k)

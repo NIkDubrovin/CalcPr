@@ -15,6 +15,8 @@ int functionsCalc()
 		cin >> type;
 	} while (!isCorrectInput());
 		
+	clearScreen();
+
 	if (type == 0) {
 		do
 		{
@@ -62,7 +64,7 @@ func_t* createFunc(const Type& type) {
 			cin >> func->n;
 			if (func->n < 1)
 				cout << "Неверно введеная степень";
-		} while (!isCorrectInput() && func->n < 1);
+		} while (!isCorrectInput() || func->n < 1);
 
 		func->n++; // a0
 		func->koefs = (double*)malloc(sizeof(double) * (func->n));
@@ -76,6 +78,12 @@ func_t* createFunc(const Type& type) {
 				cin >> func->koefs[i];
 				if (isCorrectInput())
 					break;
+			}
+
+			if (i == func->n - 1 && func->koefs[i] == 0.0) 
+			{
+				cout << "an не может быть = 0" << endl;
+				i--;
 			}
 		}
 	}
@@ -281,7 +289,7 @@ int drawGraph(const func_t * func)
 {
 	SDL_Renderer* render = nullptr;
 	float w = 1000, h = 700;
-	double A = 0, B = 0, * extremums = nullptr;
+	double A = -10, B = 10, * extremums = nullptr, maxValue = 0, temp = 0;
 	int extremumsCount = 0;
 
 	cout << "Построение графика;" << endl;
@@ -326,23 +334,29 @@ int drawGraph(const func_t * func)
 
 	pX = w / (abs(A - B)); // x2 > x1
 
-	double maxValue = 0, temp = 0;
-
 	// find max Value
 	for (int i = 0; i < extremumsCount; i++)
 	{
 		if (funcValue(func, extremums[i], &temp))
-			if (temp > maxValue)
-				maxValue = temp;
+			if (abs(temp) > maxValue)
+				maxValue = abs(temp);
 	}
 
 	if(funcValue(func, A, &temp))
-		if (temp > maxValue)
-			maxValue = temp;
+		if (abs(temp) > maxValue)
+			maxValue = abs(temp);
 
 	if (funcValue(func, B, &temp))
-		if (temp > maxValue)
+		if (abs(temp) > maxValue)
+			maxValue = abs(temp);
+
+	if (func->type == SIN || func->type == COS) {
+		maxValue = func->koefs[0] * 1.0 + func->koefs[3];
+		temp = func->koefs[0] * (-1.0) + func->koefs[3];
+
+		if (abs(maxValue) < abs(temp))
 			maxValue = temp;
+	}
 
 	if (func->type == POLYNOMIAL)
 		temp = func->koefs[0];
@@ -351,7 +365,22 @@ int drawGraph(const func_t * func)
 	else if(func->n == 4)
 		temp = func->koefs[3];
 
-	pY = cY / (maxValue + temp);
+	if (func->type == SIN || func->type == COS) 
+	{
+		if (abs(maxValue) < 2.0)
+			pY = cY / 2.0;
+		else
+			pY = cY / (abs(maxValue));
+	}
+		
+	else 
+	{
+		pY = cY / (abs(maxValue + temp));
+
+		if (pY < 1e-3)
+			pY = 1e-3;
+	}
+
 	aY += temp * pY;
 
 	// ox
@@ -373,10 +402,19 @@ int drawGraph(const func_t * func)
 		SDL_RenderDrawLineF(render, aX - pLength, i, aX + pLength, i);
 	}
 
-	double x = 0, y = 0, x2 = 0, y2 = 0;
-	for (double i = A; i < B; i += 1.0)
+	double x = 0, y = 0, step = abs(B - A) / 1e+4;
+
+	for (double i = A; i < B; i += step)
 	{
-		if (funcValue(func, i, &y) && funcValue(func, i + 1.0, &y2)) 
+		if (funcValue(func, i, &y))
+		{
+			y = cY + pY * (-1.f) * y;
+			x = cX + i * pX;
+
+			SDL_RenderDrawPointF(render, x, y);
+		}
+
+		/*if (funcValue(func, i, &y) && funcValue(func, i + 0.5, &y2)) 
 		{
 			 y = cY + pY * (-1.f) * y;
 			 x = cX + i * pX;
@@ -385,12 +423,13 @@ int drawGraph(const func_t * func)
 			 x2 = cX + (i + 1.f) * pX;
 
 			 SDL_RenderDrawLineF(render, x, y, x2, y2);
-		}
+		}*/
 	}
 
 	SDL_RenderPresent(render);
-	SDL_Delay(1000);
+	SDL_Delay(4000);
 	
+	free(extremums);
 	clean(render);
 
 	return 0;
@@ -826,6 +865,9 @@ int searchExtremum(const func_t* func)
 		{
 			cout << extremums[i] << " ";
 		}
+
+		if (func->type == SIN || func->type == COS)
+			cout << " +- " << 2.0 / func->koefs[1] << "Pi";
 
 		cout << endl;
 	}
