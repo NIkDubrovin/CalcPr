@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include <Windows.h>
+#include "sdl/include/SDL.h"
 
 using namespace std;
 
@@ -16,6 +17,9 @@ typedef enum STATE{
     EXIT
 } STATE;
 
-void init();
+int init();
+SDL_Renderer* createWindow(float w, float h);
+void clean(SDL_Renderer* render);
+void clearRender(SDL_Renderer* render, SDL_Color color);
 unsigned char isCorrectInput();
 void clearScreen();

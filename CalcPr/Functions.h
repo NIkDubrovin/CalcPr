@@ -1,6 +1,7 @@
 #pragma once
 #include "Calc.h"
 #include "polynomRealRoots.h"
+#include "sdl/include/SDL.h"
 // Дубровин
 
 typedef enum TYPE_FUNC {

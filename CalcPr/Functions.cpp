@@ -22,6 +22,8 @@ int functionsCalc()
 			cin >> type;
 		} while (!isCorrectInput());
 
+		clearScreen();
+
 		switch (type)
 		{
 		case POLYNOMIAL: cout << "a0 + a1*x + a2*x^2 + ... + an*x^n\n";	break;
@@ -37,9 +39,9 @@ int functionsCalc()
 		if ((func = createFunc((Type)type)) == nullptr)
 			return 0;
 
-		calcIntegral(func);
+		/*calcIntegral(func);
 		searchRoots(func);
-		searchExtremum(func);
+		searchExtremum(func);*/
 		drawGraph(func);
 
 		deleteFunc(func);
@@ -147,10 +149,18 @@ int calcIntegral(const func_t * func)
 
 	cout << "Вычисление определенного интеграла:\n";
 	do {
-		cout << "Введите a: ";
+		cout << "Введите A: ";
 		cin >> a;
-		cout << "Введите b: ";
+		cout << "Введите B: ";
 		cin >> b;
+
+		if (func->type == LOG) {
+			if (a < 0.0)
+				a = 0.0;
+
+			if (b < 0)
+				b = 0;
+		}
 
 		if (func->type == POLYNOMIAL || func->type == POWER || func->type == LOG) {
 			if (a == 0.0)
@@ -168,8 +178,7 @@ int calcIntegral(const func_t * func)
 			if (b == 0.0 && a == 0.0)
 				cout << "Error! Функция неопределена на данном значении!\n";
 
-		}
-			
+		}		
 	} while (!isCorrectInput());
 	
 	cout << "Integral: " << a << " | " << b << " (";
@@ -222,6 +231,7 @@ int calcIntegral(const func_t * func)
 	{
 		cout << func->koefs[0] << "* ln(" << func->koefs[1] << "*x) + " << func->koefs[2];
 
+
 		integralA = func->koefs[0] * log(func->koefs[1] * a) * a - func->koefs[0] * a + func->koefs[2] * a;
 		integralB = func->koefs[0] * log(func->koefs[1] * b) * b - func->koefs[0] * b + func->koefs[2] * b;
 	}
@@ -269,7 +279,121 @@ int calcIntegral(const func_t * func)
 
 int drawGraph(const func_t * func)
 {
-	return 0.0;
+	SDL_Renderer* render = nullptr;
+	float w = 1000, h = 700;
+	double A = 0, B = 0, * extremums = nullptr;
+	int extremumsCount = 0;
+
+	cout << "Построение графика;" << endl;
+
+	if (func == nullptr || func->koefs == nullptr)
+		return 0;
+
+	if (func->n < 1 || !isTypeFunc(func->type))
+		return 0;
+
+	do {
+		cout << "Введите A: ";
+		cin >> A;
+		cout << "Введите B: ";
+		cin >> B;
+
+		if (A > B)
+			cout << "Error! A > B;\n";
+	} while (!isCorrectInput() || A > B);
+
+
+	// rootsCount + A,B
+	if ((extremums = (double*)malloc(sizeof(double) * (func->n + 2))) == nullptr)
+		return 0;
+
+	if (!funcExtremums(func, A, B, extremums, extremumsCount))
+	{
+		return 0;
+	}
+
+	if((render = createWindow(w, h)) == nullptr)
+		return 0;
+
+	SDL_Color backGroundColor = { 0, 0, 0, 0 }, color = { 0xff, 0xff, 0xff, 0xff };
+	clearRender(render, backGroundColor);
+	float cX = 0, cY = 0, ap = w / h, aX = 0.f, aY = 0.f, pX = 1.f, pY = 1.f, pLength = 0.f;
+
+	SDL_SetRenderDrawColor(render, color.r, color.g, color.b, color.a);
+
+	aX = w * 0.5, aY = h * 0.5;
+	cX = w * 0.5, cY = h * 0.5;
+
+	pX = w / (abs(A - B)); // x2 > x1
+
+	double maxValue = 0, temp = 0;
+
+	// find max Value
+	for (int i = 0; i < extremumsCount; i++)
+	{
+		if (funcValue(func, extremums[i], &temp))
+			if (temp > maxValue)
+				maxValue = temp;
+	}
+
+	if(funcValue(func, A, &temp))
+		if (temp > maxValue)
+			maxValue = temp;
+
+	if (funcValue(func, B, &temp))
+		if (temp > maxValue)
+			maxValue = temp;
+
+	if (func->type == POLYNOMIAL)
+		temp = func->koefs[0];
+	else if(func->n == 3)
+		temp = func->koefs[2];
+	else if(func->n == 4)
+		temp = func->koefs[3];
+
+	pY = cY / (maxValue + temp);
+	aY += temp * pY;
+
+	// ox
+	SDL_RenderDrawLineF(render, 0.f, aY, w, aY);
+	// oy
+	SDL_RenderDrawLineF(render, aX, 0.f, aX, h);
+
+	pLength = w * 0.002f;
+
+	// Axis Points  - OX
+	for (float i = 0.f; i < w; i += pX)
+	{
+		SDL_RenderDrawLineF(render, i, aY + pLength, i, aY - pLength);
+	}
+
+	// Axis Points  - OY
+	for (float i = 0.f; i < h; i += pY)
+	{
+		SDL_RenderDrawLineF(render, aX - pLength, i, aX + pLength, i);
+	}
+
+	double x = 0, y = 0, x2 = 0, y2 = 0;
+	for (double i = A; i < B; i += 1.0)
+	{
+		if (funcValue(func, i, &y) && funcValue(func, i + 1.0, &y2)) 
+		{
+			 y = cY + pY * (-1.f) * y;
+			 x = cX + i * pX;
+
+			 y2 = cY + pY * (-1.f) * y2;
+			 x2 = cX + (i + 1.f) * pX;
+
+			 SDL_RenderDrawLineF(render, x, y, x2, y2);
+		}
+	}
+
+	SDL_RenderPresent(render);
+	SDL_Delay(1000);
+	
+	clean(render);
+
+	return 0;
 }
 
 // return 0 - hasnt roots
@@ -651,9 +775,15 @@ int searchRoots(const func_t* func)
 				if(roots[i] <= B && roots[i] >= A)
 					cout << roots[i] << " ";
 			}
+
+			if (func->type == SIN || func->type == COS)
+				cout << " +- " << 2.0 / func->koefs[1] << "Pi";
+
 			cout << endl;
 		}	
 	}
+
+	cout << endl;
 
 	free(roots);
 	return 1;
@@ -700,7 +830,7 @@ int searchExtremum(const func_t* func)
 		cout << endl;
 	}
 
-
+	cout << endl;
 	free(extremums);
 	return 1;
 }

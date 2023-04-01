@@ -226,7 +226,7 @@ Fraction reductinFraction(Fraction main)
 
 	while((!isSimple(main.denominator)) || (!isSimple(main.numerator)))
 	{
-		
+		if (i == 0) return main;
 		if ((main.denominator % i == 0) && (main.numerator % i == 0))
 		{
 			main.denominator /= i;
