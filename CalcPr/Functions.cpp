@@ -39,9 +39,9 @@ int functionsCalc()
 		if ((func = createFunc((Type)type)) == nullptr)
 			return 0;
 
-		/*calcIntegral(func);
+		calcIntegral(func);
 		searchRoots(func);
-		searchExtremum(func);*/
+		searchExtremum(func);
 		drawGraph(func);
 
 		deleteFunc(func);
